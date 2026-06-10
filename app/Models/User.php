@@ -70,7 +70,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserTarget::class);
     }
-
+    /**
+     * Relasi ke target aktif user (1 user = 1 active target).
+     *
+     * Walaupun tabel user_targets dirancang many-to-many,
+     * business rule Sprint 3: 1 user = 1 row.
+     * latest('selected_at') sebagai defensive jika somehow ada > 1 row.
+     */
+    public function userTarget(): HasOne
+    {
+        return $this->hasOne(UserTarget::class)->latest('selected_at');
+    }
     public function selectedTargets(): BelongsToMany
     {
         return $this->belongsToMany(Target::class, 'user_targets')

@@ -69,40 +69,42 @@
         {{-- ============================ --}}
 
         <div class="lingkup-sidebar-label">Menu Utama</div>
-        <ul class="lingkup-sidebar-nav">
-            <li>
-                <a href="{{ route('dashboard') }}"
-                   class="lingkup-sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-house"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li>
-    <a href="{{ route('profile-assessment.index') }}"
-       class="lingkup-sidebar-link {{ request()->routeIs('profile-assessment.*') ? 'active' : '' }}">
-        <i class="bi bi-mortarboard"></i>
-        <span>Profil Akademik</span>
-    </a>
-</li>
-            <li>
-                <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
-                    <i class="bi bi-bullseye"></i>
-                    <span>Pilih Target</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
-                    <i class="bi bi-map"></i>
-                    <span>Pathway Saya</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
-                    <i class="bi bi-graph-up"></i>
-                    <span>Progress</span>
-                </a>
-            </li>
-        </ul>
+<ul class="lingkup-sidebar-nav">
+    <li>
+        <a href="{{ route('dashboard') }}"
+           class="lingkup-sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <i class="bi bi-house"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('profile-assessment.index') }}"
+           class="lingkup-sidebar-link {{ request()->routeIs('profile-assessment.*') ? 'active' : '' }}">
+            <i class="bi bi-mortarboard"></i>
+            <span>Profil Akademik</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('target.index') }}"
+           class="lingkup-sidebar-link {{ request()->routeIs('target.*') ? 'active' : '' }}">
+            <i class="bi bi-bullseye"></i>
+            <span>Pilih Target</span>
+        </a>
+    </li>
+    <li>
+        {{-- Placeholder, akan aktif di Sprint 4 --}}
+        <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
+            <i class="bi bi-map"></i>
+            <span>Pathway Saya</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
+            <i class="bi bi-graph-up"></i>
+            <span>Progress</span>
+        </a>
+    </li>
+</ul>
 
         <div class="lingkup-sidebar-label">Akun</div>
         <ul class="lingkup-sidebar-nav">

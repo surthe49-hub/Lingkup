@@ -40,6 +40,13 @@
                         </div>
                     @endif
 
+                    @if (session('warning'))
+                    <div class="lingkup-alert" style="background: #FFFBEB; border: 1px solid #FCD34D; color: #92400E;">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        {{ session('warning') }}
+                    </div>
+                    @endif
+                    
                     @if (session('success'))
                         <div class="lingkup-alert lingkup-alert-success">
                             <i class="bi bi-check-circle me-2"></i>
