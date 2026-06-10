@@ -1025,16 +1025,16 @@
                         <div class="mock-label">Career Pathway Analysis</div>
 
                         <div class="mock-profile">
-                            <div class="mock-avatar">AR</div>
+       f                     <div class="mock-avatar">AR</div>
                             <div>
-                                <div class="mock-name">Rafi Awallaisal</div>
+                                <div class="mock-name">Rafi x ND</div>
                                 <div class="mock-sub">Sistem Informasi · TUP</div>
                             </div>
                         </div>
 
                         <div class="mock-match-bar">
                             <div class="bar-label">
-                                <span>Machine Learning Engineer · Singapore</span>
+                                <span>roll an anime · Indonesia</span>
                                 <span style="color: var(--accent-cyan); font-weight: 700;">92%</span>
                             </div>
                             <div class="bar-track">
@@ -1044,7 +1044,7 @@
 
                         <div class="mock-match-bar">
                             <div class="bar-label">
-                                <span>Data Scientist · Belanda</span>
+                                <span>Keren ganteng · Belanda</span>
                                 <span style="color: var(--accent-teal); font-weight: 700;">87%</span>
                             </div>
                             <div class="bar-track">
@@ -1054,7 +1054,7 @@
 
                         <div class="mock-match-bar">
                             <div class="bar-label">
-                                <span>Software Architect · Jerman</span>
+                                <span>Bunna Tedy · Jerman</span>
                                 <span style="color: var(--accent-amber); font-weight: 700;">79%</span>
                             </div>
                             <div class="bar-track">

@@ -559,3 +559,220 @@ body {
 .lingkup-card-danger .lingkup-card-title {
   color: #991B1B;
 }
+
+/* Section Header dengan Number Badge */
+.lingkup-section-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--lingkup-primary-light);
+    color: var(--lingkup-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    flex-shrink: 0;
+}
+
+.lingkup-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--lingkup-border);
+}
+
+.lingkup-section-header-text h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--lingkup-text);
+}
+
+.lingkup-section-header-text p {
+    margin: 0.125rem 0 0;
+    color: var(--lingkup-text-muted);
+    font-size: 0.875rem;
+}
+
+/* Required field indicator */
+.lingkup-required {
+    color: var(--lingkup-danger);
+    margin-left: 2px;
+}
+
+/* English Level Radio Cards */
+.lingkup-radio-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+}
+
+@media (min-width: 768px) {
+    .lingkup-radio-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.lingkup-radio-card {
+    border: 2px solid var(--lingkup-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+    background: white;
+}
+
+.lingkup-radio-card:hover {
+    border-color: var(--lingkup-primary);
+    background: var(--lingkup-primary-light);
+}
+
+.lingkup-radio-card input[type="radio"] {
+    display: none;
+}
+
+.lingkup-radio-card:has(input[type="radio"]:checked) {
+    border-color: var(--lingkup-primary);
+    background: var(--lingkup-primary-light);
+    color: var(--lingkup-primary);
+}
+
+/* Tag Input */
+.lingkup-tag-input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border: 1px solid var(--lingkup-border);
+    border-radius: var(--radius-md);
+    min-height: 44px;
+    background: white;
+    cursor: text;
+}
+
+.lingkup-tag-input:focus-within {
+    border-color: var(--lingkup-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.lingkup-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.25rem 0.625rem;
+    background: var(--lingkup-primary-light);
+    color: var(--lingkup-primary);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.lingkup-tag-remove {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    line-height: 1;
+    font-size: 1rem;
+}
+
+.lingkup-tag-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    min-width: 120px;
+    background: transparent;
+    font-size: 0.9375rem;
+}
+
+/* Dynamic Array (other_languages) */
+.lingkup-array-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.lingkup-array-remove {
+    background: var(--lingkup-bg);
+    border: 1px solid var(--lingkup-border);
+    color: var(--lingkup-danger);
+    padding: 0.5rem 0.625rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.lingkup-array-remove:hover {
+    background: #FEF2F2;
+    border-color: #FECACA;
+}
+
+.lingkup-array-add {
+    width: 100%;
+    padding: var(--space-sm);
+    background: white;
+    border: 1px dashed var(--lingkup-border);
+    border-radius: var(--radius-md);
+    color: var(--lingkup-primary);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.lingkup-array-add:hover {
+    border-color: var(--lingkup-primary);
+    background: var(--lingkup-primary-light);
+}
+
+/* Character Counter */
+.lingkup-char-counter {
+    font-size: 0.75rem;
+    color: var(--lingkup-text-muted);
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+.lingkup-char-counter.over-limit {
+    color: var(--lingkup-danger);
+}
+
+/* Global Error Banner */
+.lingkup-error-banner {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.lingkup-error-banner-title {
+    font-weight: 600;
+    color: #991B1B;
+    margin: 0 0 var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.lingkup-error-banner-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #7F1D1D;
+    font-size: 0.875rem;
+}
+
+/* Form Footer (sticky-ish actions) */
+.lingkup-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-md);
+    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--lingkup-border);
+}

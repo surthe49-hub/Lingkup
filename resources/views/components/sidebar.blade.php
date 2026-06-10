@@ -78,12 +78,12 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('profile.edit') }}"
-                   class="lingkup-sidebar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
-                    <i class="bi bi-person"></i>
-                    <span>Profil Saya</span>
-                </a>
-            </li>
+    <a href="{{ route('profile-assessment.index') }}"
+       class="lingkup-sidebar-link {{ request()->routeIs('profile-assessment.*') ? 'active' : '' }}">
+        <i class="bi bi-mortarboard"></i>
+        <span>Profil Akademik</span>
+    </a>
+</li>
             <li>
                 <a href="#" class="lingkup-sidebar-link" style="opacity: 0.5; cursor: not-allowed;">
                     <i class="bi bi-bullseye"></i>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\ProfileAssessmentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -41,3 +42,19 @@ Route::middleware(['auth', 'admin'])
     });
 
 require __DIR__.'/auth.php';
+
+
+Route::middleware(['auth'])->group(function () {
+    // Existing routes...
+
+    Route::prefix('profile-assessment')
+        ->name('profile-assessment.')
+        ->controller(ProfileAssessmentController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit', 'edit')->name('edit');
+            Route::post('/', 'store')->name('store');
+            Route::put('/', 'update')->name('update');
+            Route::get('/review', 'show')->name('show');
+        });
+});
