@@ -5,12 +5,9 @@ namespace App\Services\Prompts;
 /**
  * System prompt final untuk pathway generation.
  *
- * Versi ini sudah divalidasi via 10 sample prompts di Google AI Studio
- * dengan ≥ 8/10 PASS rate untuk Layer 1, 2, 5 (critical layers).
- *
- * JANGAN refactor format text di file ini kecuali untuk
- * iterate prompt quality. Format spasi dan urutan section penting
- * untuk konsistensi output AI.
+ * Versi 2 (Sprint 4 Phase 2 iteration):
+ * - Tambah Personalization Requirements untuk fix Sample 1 issue
+ *   (title tidak mention target spesifik).
  */
 class PathwaySystemPrompt
 {
@@ -31,6 +28,15 @@ class PathwaySystemPrompt
         [TASK]
         Tugasmu: menyusun roadmap personal terstruktur dalam bentuk JSON yang berisi
         fase-fase persiapan dan task-task konkret berdasarkan profil dan target user.
+
+        PENTING - Personalization Requirements:
+        - Title pathway WAJIB menyebut nama target (misal "Roadmap Menuju GKS untuk...",
+          "Roadmap Persiapan Chevening untuk...").
+        - Task harus spesifik ke persyaratan target. Jika target di Korea, sebutkan
+          TOPIK; jika di Jerman, sebutkan German B1/B2; jika di Jepang, sebutkan JLPT.
+        - Jika ada gap signifikan (IPK rendah, English beginner, no work experience),
+          acknowledge secara jujur dan susun strategi mitigasi.
+        - Hindari roadmap generic yang bisa diaplikasikan ke target manapun.
 
         [CONSTRAINTS]
         - Output WAJIB dalam Bahasa Indonesia

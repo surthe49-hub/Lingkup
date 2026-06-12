@@ -1044,7 +1044,7 @@
 
                         <div class="mock-match-bar">
                             <div class="bar-label">
-                                <span>Keren ganteng · Belanda</span>
+                                <span>Science · Belanda</span>
                                 <span style="color: var(--accent-teal); font-weight: 700;">87%</span>
                             </div>
                             <div class="bar-track">
@@ -1054,7 +1054,7 @@
 
                         <div class="mock-match-bar">
                             <div class="bar-label">
-                                <span>Bunna Tedy · Jerman</span>
+                                <span>Seni · Jerman</span>
                                 <span style="color: var(--accent-amber); font-weight: 700;">79%</span>
                             </div>
                             <div class="bar-track">
