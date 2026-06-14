@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Pathway Generate</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        pre { background: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; max-height: 600px; overflow-y: auto; }
+        .meta { color: #666; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>LINGKUP — Test Pathway Generate</h1>
+    <p class="meta">Pastikan Anda sudah login ke <a href="http://127.0.0.1:8000/login" target="_blank">http://127.0.0.1:8000/login</a> di tab lain dulu.</p>
+    
+    <button onclick="generate()" id="btn">Generate Pathway</button>
+    <button onclick="showPathway()" id="btnShow" style="margin-left: 10px;">Show Latest Pathway</button>
+    
+    <pre id="result">Click "Generate Pathway" to start...</pre>
+    
+    <script>
+        let lastPathwayId = null;
+        
+        async function generate() {
+            const btn = document.getElementById('btn');
+            const result = document.getElementById('result');
+            btn.disabled = true;
+            btn.textContent = 'Generating... (wait 10-30s)';
+            result.textContent = 'Loading...';
+            const startTime = Date.now();
+
+            try {
+                const csrfToken = document.cookie.split('XSRF-TOKEN=')[1]?.split(';')[0];
+                const decodedToken = csrfToken ? decodeURIComponent(csrfToken) : '';
+
+                const response = await fetch('http://127.0.0.1:8000/pathway/generate', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-XSRF-TOKEN': decodedToken,
+                    },
+                });
+
+                const data = await response.json();
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                if (data.pathway_id) {
+                    lastPathwayId = data.pathway_id;
+                }
+                
+                result.textContent = `HTTP ${response.status} (${elapsed}s)\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (e) {
+                result.textContent = 'Error: ' + e.message;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generate Pathway';
+            }
+        }
+        
+        async function showPathway() {
+            if (!lastPathwayId) {
+                document.getElementById('result').textContent = 'Generate pathway dulu, baru bisa show.';
+                return;
+            }
+            
+            const result = document.getElementById('result');
+            result.textContent = 'Loading pathway detail...';
+            
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/pathway/${lastPathwayId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' },
+                });
+                
+                const data = await response.json();
+                result.textContent = `HTTP ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (e) {
+                result.textContent = 'Error: ' + e.message;
+            }
+        }
+    </script>
+</body>
+</html>
