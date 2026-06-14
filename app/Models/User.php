@@ -65,6 +65,33 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+    /**
+     * Pathway aktif user (1:1 dengan filter status='active').
+     *
+     * Phase 3A: hard delete pathway lama saat regenerate, sehingga
+     * hanya ada 1 active pathway per user.
+     * Phase 3B akan upgrade ke proper archive logic.
+     */
+    public function pathway(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Pathway::class)->where('status', 'active');
+    }
+
+    /**
+     * Semua pathway user (historical, untuk Phase 3B+).
+     */
+    public function pathways(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Pathway::class);
+    }
+
+    /**
+     * Generation logs dari user (untuk rate limiting & analytics Phase 3B).
+     */
+    public function pathwayGenerationLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PathwayGenerationLog::class);
+    }
 
     public function userTargets(): HasMany
     {
@@ -88,10 +115,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function pathways(): HasMany
-    {
-        return $this->hasMany(Pathway::class);
-    }
+    
 
     public function taskProgress(): HasMany
     {
@@ -108,8 +132,5 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class);
     }
 
-    public function pathwayGenerationLogs(): HasMany
-    {
-        return $this->hasMany(PathwayGenerationLog::class);
-    }
+   
 }

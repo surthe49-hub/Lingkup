@@ -54,6 +54,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{target}/select', 'select')->name('select');
         });
 
+
+        // Pathway routes (User) - Phase 3A
+    Route::post('/pathway/generate', [App\Http\Controllers\User\PathwayController::class, 'generate'])
+        ->name('user.pathway.generate');
+
+    Route::get('/pathway/{pathway}', [App\Http\Controllers\User\PathwayController::class, 'show'])
+        ->name('user.pathway.show');
 });
 
 // ============================================

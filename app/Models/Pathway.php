@@ -19,6 +19,7 @@ class Pathway extends Model
         'target_id',
         'title',
         'summary',
+        'estimated_total_duration',
         'status',
         'generation_count',
         'generated_at',
@@ -30,6 +31,37 @@ class Pathway extends Model
             'generation_count' => 'integer',
             'generated_at' => 'datetime',
         ];
+    }
+    
+    // ============================================
+    // Relationships
+    // ============================================
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function target(): BelongsTo
+    {
+        return $this->belongsTo(Target::class);
+    }
+
+    public function phases(): HasMany
+    {
+        return $this->hasMany(PathwayPhase::class)->orderBy('phase_order');
+    }
+
+    public function tasks(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            PathwayTask::class,
+            PathwayPhase::class,
+            'pathway_id',   // FK di pathway_phases
+            'phase_id',     // FK di pathway_tasks
+            'id',           // PK di pathways
+            'id'            // PK di pathway_phases
+        );
     }
 
     // ============================================
@@ -70,37 +102,6 @@ class Pathway extends Model
             ->count();
 
         return round(($completedTasks / $totalTasks) * 100, 2);
-    }
-
-    // ============================================
-    // Relationships
-    // ============================================
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function target(): BelongsTo
-    {
-        return $this->belongsTo(Target::class);
-    }
-
-    public function phases(): HasMany
-    {
-        return $this->hasMany(PathwayPhase::class)->orderBy('phase_order');
-    }
-
-    public function tasks(): HasManyThrough
-    {
-        return $this->hasManyThrough(
-            PathwayTask::class,
-            PathwayPhase::class,
-            'pathway_id',   // FK di pathway_phases
-            'phase_id',     // FK di pathway_tasks
-            'id',           // PK di pathways
-            'id'            // PK di pathway_phases
-        );
     }
 
     public function feedback(): HasOne
