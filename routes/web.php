@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\User\TargetController;
+use App\Http\Controllers\User\PathwayController;
 use App\Http\Controllers\User\ProfileAssessmentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\User\TargetController;
-use Illuminate\Support\Facades\Route;
 
 // ============================================
 // Public Routes
@@ -23,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    // Profile routes dari Breeze
+    // Profile Routes (Laravel Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -54,13 +55,22 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{target}/select', 'select')->name('select');
         });
 
-
-        // Pathway routes (User) - Phase 3A
-    Route::post('/pathway/generate', [App\Http\Controllers\User\PathwayController::class, 'generate'])
-        ->name('user.pathway.generate');
-
-    Route::get('/pathway/{pathway}', [App\Http\Controllers\User\PathwayController::class, 'show'])
-        ->name('user.pathway.show');
+    // ============================================
+    // Pathway Management (Sprint 4: Phase 3A & 4)
+    // ============================================
+    Route::prefix('pathway')
+        ->name('user.pathway.')
+        ->controller(PathwayController::class)
+        ->group(function () {
+            // Phase 4: Landing page (redirect ke active pathway / empty state)
+            Route::get('/', 'index')->name('index');
+            
+            // Phase 3A: Generation endpoint (AJAX)
+            Route::post('/generate', 'generate')->name('generate');
+            
+            // Phase 3A + Phase 4: Detail view (dual-mode JSON/View)
+            Route::get('/{pathway}', 'show')->name('show');
+        });
 });
 
 // ============================================

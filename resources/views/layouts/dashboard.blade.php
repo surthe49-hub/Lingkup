@@ -41,10 +41,10 @@
                     @endif
 
                     @if (session('warning'))
-                    <div class="lingkup-alert" style="background: #FFFBEB; border: 1px solid #FCD34D; color: #92400E;">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        {{ session('warning') }}
-                    </div>
+                        <div class="lingkup-alert" style="background: #FFFBEB; border: 1px solid #FCD34D; color: #92400E;">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            {{ session('warning') }}
+                        </div>
                     @endif
                     
                     @if (session('success'))
@@ -87,5 +87,8 @@
             }
         });
     </script>
+
+    {{-- Tempat injeksi script spesifik dari halaman anak (seperti asset JS generator) --}}
+    @stack('scripts')
 </body>
 </html>
