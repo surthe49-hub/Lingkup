@@ -107,14 +107,18 @@
     </div>
 
     {{-- ============================================ --}}
-    {{-- Pathway Card (Full Width) - Phase 4          --}}
+    {{-- Pathway Card (Full Width) - Phase 4 & 5.2     --}}
     {{-- ============================================ --}}
     @php
         $userProfile = auth()->user()->profile;
         $userTarget = auth()->user()->userTarget?->target;
         $userPathway = auth()->user()->pathway;
         $profileComplete = $userProfile && $userProfile->isComplete();
+        $mismatchInfo = auth()->user()->getPathwayTargetMismatchInfo();
     @endphp
+
+    {{-- Mismatch Banner (Phase 5.2) --}}
+    <x-pathway.mismatch-banner :mismatch-info="$mismatchInfo" />
 
     <div class="mb-4">
         @if ($userPathway)
@@ -367,7 +371,7 @@
     </x-section-card>
 
     {{-- ============================================ --}}
-    {{-- Account Info (footer)                         --}}
+    {{-- Account Info (footer)                        --}}
     {{-- ============================================ --}}
     <x-section-card title="Informasi Akun">
         <div class="row g-3">

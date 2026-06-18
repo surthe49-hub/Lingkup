@@ -28,6 +28,9 @@
             </div>
         </div>
 
+        {{-- Regenerate Section (Phase 5.2) --}}
+<x-pathway.regenerate-button :pathway="$pathway" :quota-info="$quotaInfo" />
+
         {{-- Footer Actions --}}
         <div class="pathway-footer-actions">
             <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
@@ -37,3 +40,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/pathway-regenerate.js') }}"></script>
+@endpush

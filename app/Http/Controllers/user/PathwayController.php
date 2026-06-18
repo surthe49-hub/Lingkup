@@ -119,6 +119,83 @@ class PathwayController extends Controller
     }
 
     /**
+     * POST /pathway/regenerate
+     *
+     * Regenerate pathway untuk user yang sudah punya active pathway.
+     *
+     * Difference dengan generate():
+     * - Validation: user MUST have active pathway (404 if none)
+     * - Semantic: explicit "regenerate intent"
+     *
+     * Shares same service logic (archive + retry + rate limit).
+     */
+    public function regenerate(PathwayGenerationRequest $request): JsonResponse
+    {
+        set_time_limit(200); // 3 attempts × 60s + 2 backoffs = ~190s worst case
+
+        $user = $request->user();
+
+        // Validation: user MUST have existing active pathway
+        if (! $user->pathway) {
+            return response()->json([
+                'success' => false,
+                'error_type' => 'no_active_pathway',
+                'message' => 'Tidak ada pathway aktif untuk di-regenerate. Silakan generate pathway baru.',
+            ], 422);
+        }
+
+        $profile = $user->profile;
+        $target = $user->userTarget->target;
+
+        try {
+            $oldPathwayId = $user->pathway->id;
+            $pathway = $this->pathwayService->generate($profile, $target, $user);
+
+            $pathway->loadCount('phases');
+            $taskCount = $pathway->tasks()->count();
+
+            return response()->json([
+                'success' => true,
+                'pathway_id' => $pathway->id,
+                'previous_pathway_id' => $oldPathwayId,
+                'title' => $pathway->title,
+                'summary' => $pathway->summary,
+                'estimated_total_duration' => $pathway->estimated_total_duration,
+                'phase_count' => $pathway->phases_count,
+                'task_count' => $taskCount,
+                'generation_count' => $pathway->generation_count,
+                'view_url' => route('user.pathway.show', $pathway),
+                'message' => 'Pathway berhasil di-regenerate.',
+            ], 201);
+        } catch (PathwayGenerationException $e) {
+            Log::warning('Pathway regeneration failed', [
+                'user_id' => $user->id,
+                'error_type' => $e->type,
+                'error_message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'error_type' => $e->type,
+                'message' => $e->userMessage(),
+            ], 500);
+        } catch (\Throwable $e) {
+            Log::error('Unexpected error in pathway regeneration', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'error_type' => 'unknown',
+                'message' => 'Terjadi kesalahan tak terduga. Silakan coba lagi.',
+                'debug' => app()->environment('local') ? $e->getMessage() : null,
+            ], 500);
+        }
+    }
+
+    /**
      * GET /pathway/{pathway}
      *
      * Dual-mode:
@@ -189,9 +266,24 @@ class PathwayController extends Controller
             ]);
         }
 
-        // View mode (default)
-        return view('user.pathway.show', [
-            'pathway' => $pathway,
-        ]);
+       // View mode (default) - Phase 5.2.F: tambah quota info
+$rateLimiter = app(\App\Services\Pathway\PathwayRateLimiter::class);
+$quotaInfo = null;
+
+// Hanya compute quota untuk active pathway (archived tidak butuh quota info)
+if ($pathway->status === 'active') {
+    $quotaInfo = [
+        'current_usage' => $rateLimiter->getCurrentUsage($pathway->user, $pathway->target),
+        'max_quota' => \App\Services\Pathway\PathwayRateLimiter::MAX_GENERATIONS_PER_WINDOW,
+        'remaining' => $rateLimiter->getRemainingGenerations($pathway->user, $pathway->target),
+        'can_regenerate' => $rateLimiter->canGenerate($pathway->user, $pathway->target),
+        'reset_at' => $rateLimiter->getResetAt($pathway->user, $pathway->target),
+    ];
+}
+
+return view('user.pathway.show', [
+    'pathway' => $pathway,
+    'quotaInfo' => $quotaInfo,
+]);
     }
 }
