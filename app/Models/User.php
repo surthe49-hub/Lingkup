@@ -65,6 +65,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+    
     /**
      * Pathway aktif user (1:1 dengan filter status='active').
      *
@@ -97,6 +98,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserTarget::class);
     }
+    
     /**
      * Relasi ke target aktif user (1 user = 1 active target).
      *
@@ -108,14 +110,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserTarget::class)->latest('selected_at');
     }
+    
     public function selectedTargets(): BelongsToMany
     {
         return $this->belongsToMany(Target::class, 'user_targets')
             ->withPivot('selected_at')
             ->withTimestamps();
     }
-
-    
 
     public function taskProgress(): HasMany
     {
@@ -132,5 +133,60 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class);
     }
 
-   
+    /**
+     * Cek apakah pathway aktif user mismatch dengan target aktif user.
+     *
+     * Mismatch terjadi jika:
+     * - User punya active pathway
+     * - User punya user_target
+     * - pathway.target_id != user_target.target_id
+     *
+     * @return bool
+     */
+    public function hasPathwayTargetMismatch(): bool
+    {
+        $activePathway = $this->pathway;
+        $userTarget = $this->userTarget;
+
+        if (! $activePathway || ! $userTarget) {
+            return false;
+        }
+
+        return $activePathway->target_id !== $userTarget->target_id;
+    }
+
+    /**
+     * Get informasi mismatch (untuk banner UI).
+     *
+     * Return null jika tidak ada mismatch.
+     *
+     * @return array{
+     * pathway_target: \App\Models\Target,
+     * current_target: \App\Models\Target,
+     * pathway_id: int,
+     * }|null
+     */
+    public function getPathwayTargetMismatchInfo(): ?array
+    {
+        if (! $this->hasPathwayTargetMismatch()) {
+            return null;
+        }
+
+        $activePathway = $this->pathway;
+        $userTarget = $this->userTarget;
+
+        // Load relationships jika belum di-load
+        if (! $activePathway->relationLoaded('target')) {
+            $activePathway->load('target');
+        }
+        if (! $userTarget->relationLoaded('target')) {
+            $userTarget->load('target');
+        }
+
+        return [
+            'pathway_target' => $activePathway->target,
+            'current_target' => $userTarget->target,
+            'pathway_id' => $activePathway->id,
+        ];
+    }
 }

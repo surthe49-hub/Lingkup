@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
     // ============================================
-    // Pathway Management (Sprint 4: Phase 3A & 4)
+    // Pathway Management (Sprint 4 & 5)
     // ============================================
     Route::prefix('pathway')
         ->name('user.pathway.')
@@ -67,6 +67,9 @@ Route::middleware(['auth'])->group(function () {
             
             // Phase 3A: Generation endpoint (AJAX)
             Route::post('/generate', 'generate')->name('generate');
+
+            // Phase 5.2: Regenerate existing pathway (AJAX)
+            Route::post('/regenerate', 'regenerate')->name('regenerate');
             
             // Phase 3A + Phase 4: Detail view (dual-mode JSON/View)
             Route::get('/{pathway}', 'show')->name('show');
