@@ -1745,3 +1745,69 @@ body {
     border-color: #fcd34d;
     color: #78350f;
 }
+
+/* ============================================
+   PHASE 5.3.B: ARCHIVED PATHWAY BADGE & VIEW
+   ============================================ */
+
+/* Status Badges di Hero Header */
+.pathway-badge-active {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #d1fae5 !important;
+    font-weight: 600;
+}
+
+.pathway-badge-active i {
+    color: #6ee7b7;
+}
+
+.pathway-badge-archived {
+    background: rgba(245, 158, 11, 0.25) !important;
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fef3c7 !important;
+    font-weight: 600;
+}
+
+.pathway-badge-archived i {
+    color: #fcd34d;
+}
+
+/* Archived View Subtle Differentiation */
+.pathway-archived-view .pathway-header {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    opacity: 0.95;
+}
+
+.pathway-archived-view .pathway-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.03) 10px,
+        rgba(255, 255, 255, 0.03) 20px
+    );
+    border-radius: 16px;
+    pointer-events: none;
+}
+
+.pathway-archived-view .pathway-header {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Phase Number Badge (Less Vibrant for Archived) */
+.pathway-archived-view .phase-number {
+    background: #9ca3af;
+}
+
+/* Task Cards Slightly Faded */
+.pathway-archived-view .task-card {
+    opacity: 0.9;
+}

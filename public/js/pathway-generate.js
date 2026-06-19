@@ -1,5 +1,5 @@
 /**
- * Pathway Generation Handler (Phase 4)
+ * Pathway Generation Handler (Phase 4 & Phase 5.x)
  *
  * AJAX flow:
  * 1. User klik tombol Generate
@@ -51,6 +51,34 @@
     let timerInterval = null;
     let messageInterval = null;
 
+    // Error type → icon mapping
+    const errorIcons = {
+        'rate_limit_exceeded': 'bi-clock-history',
+        'timeout': 'bi-hourglass-split',
+        'api_error': 'bi-cloud-slash',
+        'invalid_json': 'bi-file-earmark-x',
+        'validation_failed': 'bi-clipboard-x',
+        'empty_response': 'bi-inbox',
+        'profile_incomplete': 'bi-person-x',          // NEW
+        'no_target': 'bi-flag',                        // NEW
+        'no_active_pathway': 'bi-question-circle',
+        'unknown': 'bi-exclamation-triangle',
+    };
+
+    // Error type → friendly title
+    const errorTitles = {
+        'rate_limit_exceeded': 'Quota Habis',
+        'timeout': 'Koneksi Lambat',
+        'api_error': 'Server Bermasalah',
+        'invalid_json': 'Output Tidak Valid',
+        'validation_failed': 'Hasil Tidak Memenuhi Standar',
+        'empty_response': 'AI Tidak Merespons',
+        'profile_incomplete': 'Profile Belum Lengkap',  // NEW
+        'no_target': 'Target Belum Dipilih',            // NEW
+        'no_active_pathway': 'Pathway Tidak Ditemukan',
+        'unknown': 'Generation Gagal',
+    };
+
     function getCsrfToken() {
         const tokenCookie = document.cookie
             .split('; ')
@@ -84,8 +112,25 @@
         if (messageInterval) clearInterval(messageInterval);
     }
 
-    function showError(message) {
+    function showError(message, errorType = 'unknown') {
         hideLoading();
+
+        // Update error icon based on type
+        const errorIcon = errorState.querySelector('i');
+        if (errorIcon) {
+            // Remove all existing bi-* classes
+            errorIcon.className = errorIcon.className.replace(/bi-\S+/g, '');
+            // Add specific icon class
+            const iconClass = errorIcons[errorType] || errorIcons.unknown;
+            errorIcon.classList.add('bi', iconClass);
+        }
+
+        // Update error title based on type
+        const errorTitle = errorState.querySelector('h3');
+        if (errorTitle) {
+            errorTitle.textContent = errorTitles[errorType] || errorTitles.unknown;
+        }
+
         errorState.style.display = 'block';
         errorMessage.textContent = message || 'Terjadi kesalahan. Silakan coba lagi.';
         errorState.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -115,11 +160,12 @@
                     window.location.href = data.view_url;
                 }, 1500);
             } else {
-                showError(data.message || 'Generation gagal. Silakan coba lagi.');
+                // Error response with type-specific UI
+                showError(data.message || 'Generation gagal. Silakan coba lagi.', data.error_type);
             }
         } catch (error) {
             console.error('Pathway generation error:', error);
-            showError('Tidak dapat terhubung ke server. Periksa koneksi internet Anda.');
+            showError('Tidak dapat terhubung ke server. Periksa koneksi internet Anda.', 'api_error');
         }
     }
 

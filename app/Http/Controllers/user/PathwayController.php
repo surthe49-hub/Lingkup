@@ -66,9 +66,28 @@ class PathwayController extends Controller
      */
     public function generate(PathwayGenerationRequest $request): JsonResponse
     {
-        set_time_limit(70);
+        set_time_limit(200);
 
         $user = $request->user();
+
+        // Validation 1: Profile must be complete
+        if (! $user->profile || ! $user->profile->isComplete()) {
+            return response()->json([
+                'success' => false,
+                'error_type' => 'profile_incomplete',
+                'message' => 'Profile assessment Anda belum lengkap. Silakan lengkapi profile terlebih dahulu.',
+            ], 422);
+        }
+
+        // Validation 2: Must have user_target with target
+        if (! $user->userTarget || ! $user->userTarget->target) {
+            return response()->json([
+                'success' => false,
+                'error_type' => 'no_target',
+                'message' => 'Anda belum memilih target. Silakan pilih target studi terlebih dahulu.',
+            ], 422);
+        }
+
         $profile = $user->profile;
         $target = $user->userTarget->target;
 
@@ -135,12 +154,30 @@ class PathwayController extends Controller
 
         $user = $request->user();
 
-        // Validation: user MUST have existing active pathway
+        // Validation 1: Must have existing active pathway
         if (! $user->pathway) {
             return response()->json([
                 'success' => false,
                 'error_type' => 'no_active_pathway',
                 'message' => 'Tidak ada pathway aktif untuk di-regenerate. Silakan generate pathway baru.',
+            ], 422);
+        }
+
+        // Validation 2: Must have complete profile (edge case protection)
+        if (! $user->profile || ! $user->profile->isComplete()) {
+            return response()->json([
+                'success' => false,
+                'error_type' => 'profile_incomplete',
+                'message' => 'Profile assessment Anda belum lengkap. Silakan lengkapi profile terlebih dahulu.',
+            ], 422);
+        }
+
+        // Validation 3: Must have user_target with target (edge case protection)
+        if (! $user->userTarget || ! $user->userTarget->target) {
+            return response()->json([
+                'success' => false,
+                'error_type' => 'no_target',
+                'message' => 'Anda belum memilih target. Silakan pilih target studi terlebih dahulu.',
             ], 422);
         }
 
@@ -266,24 +303,24 @@ class PathwayController extends Controller
             ]);
         }
 
-       // View mode (default) - Phase 5.2.F: tambah quota info
-$rateLimiter = app(\App\Services\Pathway\PathwayRateLimiter::class);
-$quotaInfo = null;
+        // View mode (default) - Phase 5.2.F: tambah quota info
+        $rateLimiter = app(\App\Services\Pathway\PathwayRateLimiter::class);
+        $quotaInfo = null;
 
-// Hanya compute quota untuk active pathway (archived tidak butuh quota info)
-if ($pathway->status === 'active') {
-    $quotaInfo = [
-        'current_usage' => $rateLimiter->getCurrentUsage($pathway->user, $pathway->target),
-        'max_quota' => \App\Services\Pathway\PathwayRateLimiter::MAX_GENERATIONS_PER_WINDOW,
-        'remaining' => $rateLimiter->getRemainingGenerations($pathway->user, $pathway->target),
-        'can_regenerate' => $rateLimiter->canGenerate($pathway->user, $pathway->target),
-        'reset_at' => $rateLimiter->getResetAt($pathway->user, $pathway->target),
-    ];
-}
+        // Hanya compute quota untuk active pathway (archived tidak butuh quota info)
+        if ($pathway->status === 'active') {
+            $quotaInfo = [
+                'current_usage' => $rateLimiter->getCurrentUsage($pathway->user, $pathway->target),
+                'max_quota' => \App\Services\Pathway\PathwayRateLimiter::MAX_GENERATIONS_PER_WINDOW,
+                'remaining' => $rateLimiter->getRemainingGenerations($pathway->user, $pathway->target),
+                'can_regenerate' => $rateLimiter->canGenerate($pathway->user, $pathway->target),
+                'reset_at' => $rateLimiter->getResetAt($pathway->user, $pathway->target),
+            ];
+        }
 
-return view('user.pathway.show', [
-    'pathway' => $pathway,
-    'quotaInfo' => $quotaInfo,
-]);
+        return view('user.pathway.show', [
+            'pathway' => $pathway,
+            'quotaInfo' => $quotaInfo,
+        ]);
     }
 }

@@ -7,11 +7,10 @@
         title="Roadmap Persiapan Anda"
         subtitle="Detail roadmap personal yang dihasilkan AI untuk target studi internasional."
     />
-
-    <div class="pathway-detail-container">
-        {{-- Header Pathway --}}
-        <x-pathway.header :pathway="$pathway" />
-
+<div class="pathway-detail-container {{ $pathway->status === 'archived' ? 'pathway-archived-view' : '' }}">
+    {{-- Header Pathway --}}
+    <x-pathway.header :pathway="$pathway" />
+    ...
         {{-- Phases Accordion --}}
         <div class="phases-section">
             <div class="section-heading">

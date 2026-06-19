@@ -3,6 +3,18 @@
 <div class="pathway-header">
     <div class="pathway-header-content">
         <div class="pathway-meta-top">
+            @if ($pathway->status === 'archived')
+                <span class="pathway-meta-badge pathway-badge-archived">
+                    <i class="bi bi-archive-fill"></i>
+                    Archived
+                </span>
+            @else
+                <span class="pathway-meta-badge pathway-badge-active">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Aktif
+                </span>
+            @endif
+
             <span class="pathway-meta-badge">
                 <i class="bi bi-flag-fill"></i>
                 {{ $pathway->target->name }}
