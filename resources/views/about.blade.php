@@ -19,7 +19,7 @@
 <nav class="landing-navbar home-nav-extended">
     <div class="landing-navbar-container">
         <a href="{{ route('home') }}" class="landing-navbar-brand">
-            <div class="landing-navbar-logo">L</div>
+            <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="lingkup-logo-img">
             <span>LINGKUP</span>
         </a>
 
@@ -323,7 +323,7 @@
     <div class="landing-container">
         <div class="landing-footer-content">
             <div class="landing-footer-brand">
-                <div class="landing-footer-logo">L</div>
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="landing-footer-logo-img">
                 <span>LINGKUP</span>
             </div>
             <p class="landing-footer-tagline">
