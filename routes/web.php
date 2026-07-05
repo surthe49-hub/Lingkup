@@ -121,8 +121,10 @@ Route::middleware(['auth', 'admin'])
         Route::patch('/{user}/suspend', 'suspend')->name('suspend');
         Route::patch('/{user}/activate', 'activate')->name('activate');
         Route::patch('/{user}/role', 'updateRole')->name('update-role');
+        Route::patch('/{user}/credentials', 'updateCredentials')->name('update-credentials');
         Route::delete('/{user}', 'destroy')->name('destroy');
         Route::patch('/{user}/restore', 'restore')->name('restore')->withTrashed();
+
     });
 
     Route::prefix('targets')
@@ -137,6 +139,16 @@ Route::middleware(['auth', 'admin'])
         Route::patch('/{target}/toggle-active', 'toggleActive')->name('toggle-active');
         Route::delete('/{target}', 'destroy')->name('destroy');
         Route::patch('/{target}/restore', 'restore')->name('restore')->withTrashed();
+    });
+
+    Route::prefix('feedback')
+    ->name('feedback.')
+    ->controller(\App\Http\Controllers\Admin\FeedbackController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::patch('/{feedback}/toggle-read', 'toggleRead')->name('toggle-read');
+        Route::delete('/{feedback}', 'destroy')->name('destroy');
+        Route::patch('/{feedback}/restore', 'restore')->name('restore')->withTrashed();
     });
 
     });

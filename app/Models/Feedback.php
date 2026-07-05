@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Feedback extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Override default plural inflection.
@@ -27,6 +28,7 @@ class Feedback extends Model
     {
         return [
             'rating' => 'integer',
+            'read_at' => 'datetime',
         ];
     }
 
@@ -47,6 +49,37 @@ class Feedback extends Model
     public function scopeLowRated($query)
     {
         return $query->where('rating', '<=', 2);
+    }
+
+    public function scopeUnread($query)
+    {
+        return $query->whereNull('read_at');
+    }
+
+    public function scopeRead($query)
+    {
+        return $query->whereNotNull('read_at');
+    }
+
+    // ============================================
+    // Helper Methods
+    // ============================================
+
+    public function isRead(): bool
+    {
+        return $this->read_at !== null;
+    }
+
+    public function markAsRead(): void
+    {
+        $this->read_at = now();
+        $this->save();
+    }
+
+    public function markAsUnread(): void
+    {
+        $this->read_at = null;
+        $this->save();
     }
 
     // ============================================

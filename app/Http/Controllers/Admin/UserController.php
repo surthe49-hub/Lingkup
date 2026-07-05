@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -83,6 +86,47 @@ class UserController extends Controller
         $user->update(['role' => $validated['role']]);
 
         return back()->with('success', "Role {$user->name} berhasil diubah menjadi {$validated['role']}.");
+    }
+
+    /**
+     * PATCH /admin/users/{user}/credentials
+     *
+     * Update email dan/atau password user oleh admin.
+     * Password nullable — kosongkan di form berarti tidak diubah.
+     *
+     * Self-edit diblokir: admin harus pakai halaman Profile sendiri
+     * (route('profile.edit')) untuk ubah kredensial akun miliknya,
+     * supaya tidak ada dua jalur berbeda untuk hal yang sama.
+     */
+    public function updateCredentials(Request $request, User $user): RedirectResponse
+    {
+        if ($user->id === $request->user()->id) {
+            return back()->with('error', 'Gunakan halaman Profil Anda sendiri untuk mengubah email/password akun ini.');
+        }
+
+        $validated = $request->validate([
+            'email' => [
+                'required', 'email', 'max:150',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+            'password' => ['nullable', 'confirmed', Password::min(8)],
+        ]);
+
+        $user->email = $validated['email'];
+
+        $passwordChanged = ! empty($validated['password']);
+
+        if ($passwordChanged) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        $message = $passwordChanged
+            ? "Email dan password {$user->name} berhasil diperbarui."
+            : "Email {$user->name} berhasil diperbarui.";
+
+        return back()->with('success', $message);
     }
 
     /**

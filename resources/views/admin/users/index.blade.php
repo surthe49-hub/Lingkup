@@ -88,6 +88,20 @@
                                     </button>
                                 </form>
                             @else
+                                {{-- Edit Email/Password --}}
+                                @if ($user->id !== auth()->id())
+                                    <button type="button"
+                                            class="lingkup-users-action-edit"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editUserModal"
+                                            data-user-id="{{ $user->id }}"
+                                            data-user-name="{{ $user->name }}"
+                                            data-user-email="{{ $user->email }}"
+                                            title="Edit email & password">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                @endif
+
                                 {{-- Ubah Role --}}
                                 <form method="POST" action="{{ route('admin.users.update-role', $user) }}" class="lingkup-users-inline-form">
                                     @csrf
@@ -192,6 +206,75 @@
         data-bs-target="#confirmActionModal"
         style="display: none;"></button>
 
+<button type="button"
+        id="editUserModalHiddenTrigger"
+        data-bs-toggle="modal"
+        data-bs-target="#editUserModal"
+        style="display: none;"></button>
+
+{{-- ============================ --}}
+{{-- Modal Edit Email/Password    --}}
+{{-- ============================ --}}
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="POST" id="editUserForm" action="">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="edited_user_id" id="editUserIdHidden">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Email &amp; Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="lingkup-form-group">
+                        <label class="lingkup-form-label">Nama User</label>
+                        <input type="text" id="editUserNameDisplay" class="lingkup-form-input" disabled>
+                    </div>
+
+                    <div class="lingkup-form-group">
+                        <label for="editUserEmail" class="lingkup-form-label">Email <span class="lingkup-form-required">*</span></label>
+                        <input type="email"
+                               name="email"
+                               id="editUserEmail"
+                               class="lingkup-form-input @error('email') lingkup-form-input-error @enderror"
+                               required>
+                        @error('email')
+                            <span class="lingkup-form-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="lingkup-form-group">
+                        <label for="editUserPassword" class="lingkup-form-label">Password Baru</label>
+                        <input type="password"
+                               name="password"
+                               id="editUserPassword"
+                               class="lingkup-form-input @error('password') lingkup-form-input-error @enderror"
+                               placeholder="Kosongkan jika tidak ingin mengubah">
+                        <span class="lingkup-form-hint">Minimal 8 karakter. Kosongkan kalau tidak ingin mengubah password.</span>
+                        @error('password')
+                            <span class="lingkup-form-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="lingkup-form-group">
+                        <label for="editUserPasswordConfirmation" class="lingkup-form-label">Konfirmasi Password Baru</label>
+                        <input type="password"
+                               name="password_confirmation"
+                               id="editUserPasswordConfirmation"
+                               class="lingkup-form-input">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -260,6 +343,29 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+    // Populate modal Edit User saat dibuka
+    const editUserModal = document.getElementById('editUserModal');
+    editUserModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const userId = button.dataset.userId;
+        const userName = button.dataset.userName;
+        const userEmail = button.dataset.userEmail;
+
+        document.getElementById('editUserForm').action = `{{ url('/admin/users') }}/${userId}/credentials`;
+        document.getElementById('editUserIdHidden').value = userId;
+        document.getElementById('editUserNameDisplay').value = userName;
+        document.getElementById('editUserEmail').value = userEmail;
+        document.getElementById('editUserPassword').value = '';
+        document.getElementById('editUserPasswordConfirmation').value = '';
+    });
+
+    @if ($errors->any() && old('edited_user_id'))
+        // Validasi gagal untuk form Edit User — buka lagi modalnya otomatis
+        document.getElementById('editUserForm').action = `{{ url('/admin/users') }}/{{ old('edited_user_id') }}/credentials`;
+        document.getElementById('editUserIdHidden').value = "{{ old('edited_user_id') }}";
+        document.getElementById('editUserEmail').value = "{{ old('email') }}";
+        document.getElementById('editUserModalHiddenTrigger').click();
+    @endif
 });
 </script>
 @endpush

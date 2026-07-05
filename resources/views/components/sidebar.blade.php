@@ -39,24 +39,24 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="lingkup-sidebar-link lingkup-sidebar-link-disabled" aria-disabled="true">
+                <a href="{{ route('admin.users.index') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i>
                     <span>Users</span>
-                    <span class="lingkup-sidebar-soon">soon</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="lingkup-sidebar-link lingkup-sidebar-link-disabled" aria-disabled="true">
+                <a href="{{ route('admin.targets.index') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.targets.*') ? 'active' : '' }}">
                     <i class="bi bi-bullseye"></i>
                     <span>Targets</span>
-                    <span class="lingkup-sidebar-soon">soon</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="lingkup-sidebar-link lingkup-sidebar-link-disabled" aria-disabled="true">
+                <a href="{{ route('admin.feedback.index') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.feedback.*') ? 'active' : '' }}">
                     <i class="bi bi-chat-dots"></i>
                     <span>Feedback</span>
-                    <span class="lingkup-sidebar-soon">soon</span>
                 </a>
             </li>
         </ul>

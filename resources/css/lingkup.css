@@ -5523,3 +5523,37 @@ a:hover .lingkup-stat-card,
     height: 72px;
   }
 }
+
+
+/* ============================================
+   Admin: Feedback Management
+   ============================================ */
+
+.lingkup-badge-warning {
+  background: var(--color-yellow-soft);
+  color: var(--lingkup-warning);
+}
+
+.lingkup-feedback-row-unread {
+  background: var(--lingkup-primary-light);
+}
+
+.lingkup-feedback-rating {
+  color: var(--lingkup-warning);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.lingkup-feedback-rating .bi-star {
+  color: var(--lingkup-border);
+}
+
+.lingkup-feedback-comment {
+  max-width: 260px;
+}
+
+.lingkup-feedback-no-comment {
+  color: var(--lingkup-text-light);
+  font-style: italic;
+  font-size: 0.85rem;
+}
