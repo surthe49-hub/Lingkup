@@ -64,6 +64,117 @@ class PageContentController extends Controller
                 ],
             ],
         ],
+
+        'home' => [
+            'label' => 'Home Page (Post-Login)',
+            'groups' => [
+                'Hero — Need Profile' => [
+                    'need_profile_hero_title' => ['label' => 'Judul — Bagian 1', 'type' => 'text'],
+                    'need_profile_hero_title_highlight' => ['label' => 'Judul — Bagian 2 (Highlight)', 'type' => 'text'],
+                    'need_profile_hero_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                ],
+                'Hero — Need Target' => [
+                    'need_target_hero_title' => ['label' => 'Judul — Bagian 1', 'type' => 'text'],
+                    'need_target_hero_title_highlight' => ['label' => 'Judul — Bagian 2 (Highlight)', 'type' => 'text'],
+                    'need_target_hero_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                ],
+                'Hero — Ready Generate' => [
+                    'ready_generate_hero_title_prefix' => ['label' => 'Judul — Sebelum Nama Target', 'type' => 'text'],
+                    'ready_generate_hero_title_suffix' => ['label' => 'Judul — Setelah Nama Target', 'type' => 'text'],
+                    'ready_generate_hero_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                ],
+                'Hero — Tombol (Semua State)' => [
+                    'hero_dashboard_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Journey Card — Need Profile' => [
+                    'need_profile_journey_title' => ['label' => 'Judul', 'type' => 'text'],
+                    'need_profile_journey_desc' => ['label' => 'Deskripsi', 'type' => 'richtext'],
+                    'need_profile_journey_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Journey Card — Need Target' => [
+                    'need_target_journey_title' => ['label' => 'Judul', 'type' => 'text'],
+                    'need_target_journey_desc' => ['label' => 'Deskripsi', 'type' => 'richtext'],
+                    'need_target_journey_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Journey Card — Ready Generate' => [
+                    'ready_generate_journey_title' => ['label' => 'Judul', 'type' => 'text'],
+                    'ready_generate_journey_desc_prefix' => ['label' => 'Deskripsi — Sebelum Nama Target', 'type' => 'text'],
+                    'ready_generate_journey_desc_suffix' => ['label' => 'Deskripsi — Setelah Nama Target', 'type' => 'richtext'],
+                    'ready_generate_journey_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Section Negara — Header' => [
+                    'countries_eyebrow' => ['label' => 'Eyebrow / Label Kecil', 'type' => 'text'],
+                    'countries_title' => ['label' => 'Judul Section', 'type' => 'text'],
+                    'countries_subtitle' => ['label' => 'Subtitle Section', 'type' => 'richtext'],
+                    'countries_footer_button' => ['label' => 'Teks Tombol "Lihat Semua"', 'type' => 'text'],
+                ],
+                'Final CTA' => [
+                    'cta_default_title' => ['label' => 'Judul (versi belum ada pathway aktif)', 'type' => 'text'],
+                    'cta_default_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                    'cta_dashboard_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Footer' => [
+                    'footer_tagline' => ['label' => 'Tagline', 'type' => 'text'],
+                ],
+            ],
+        ],
+
+        'about' => [
+            'label' => 'About Page',
+            'groups' => [
+                'Hero' => [
+                    'hero_badge' => ['label' => 'Badge Kecil', 'type' => 'text'],
+                    'hero_title_prefix' => ['label' => 'Judul — Bagian 1', 'type' => 'text'],
+                    'hero_title_highlight' => ['label' => 'Judul — Bagian 2 (Highlight)', 'type' => 'text'],
+                    'hero_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                ],
+                'Misi Kami' => [
+                    'mission_eyebrow' => ['label' => 'Eyebrow / Label Kecil', 'type' => 'text'],
+                    'mission_title' => ['label' => 'Judul Section', 'type' => 'text'],
+                    'mission_text_1' => ['label' => 'Paragraf 1', 'type' => 'richtext'],
+                    'mission_text_2' => ['label' => 'Paragraf 2', 'type' => 'richtext'],
+                    'mission_stat1_value' => ['label' => 'Statistik 1 — Angka', 'type' => 'text'],
+                    'mission_stat1_label' => ['label' => 'Statistik 1 — Label', 'type' => 'text'],
+                    'mission_stat2_value' => ['label' => 'Statistik 2 — Angka', 'type' => 'text'],
+                    'mission_stat2_label' => ['label' => 'Statistik 2 — Label', 'type' => 'text'],
+                    'mission_stat3_value' => ['label' => 'Statistik 3 — Angka', 'type' => 'text'],
+                    'mission_stat3_label' => ['label' => 'Statistik 3 — Label', 'type' => 'text'],
+                    'mission_stat4_value' => ['label' => 'Statistik 4 — Angka', 'type' => 'text'],
+                    'mission_stat4_label' => ['label' => 'Statistik 4 — Label', 'type' => 'text'],
+                ],
+                'Prinsip Kami' => [
+                    'principles_eyebrow' => ['label' => 'Eyebrow / Label Kecil', 'type' => 'text'],
+                    'principles_title' => ['label' => 'Judul Section', 'type' => 'text'],
+                    'principle1_title' => ['label' => 'Prinsip 1 — Judul', 'type' => 'text'],
+                    'principle1_text' => ['label' => 'Prinsip 1 — Deskripsi', 'type' => 'richtext'],
+                    'principle2_title' => ['label' => 'Prinsip 2 — Judul', 'type' => 'text'],
+                    'principle2_text' => ['label' => 'Prinsip 2 — Deskripsi', 'type' => 'richtext'],
+                    'principle3_title' => ['label' => 'Prinsip 3 — Judul', 'type' => 'text'],
+                    'principle3_text' => ['label' => 'Prinsip 3 — Deskripsi', 'type' => 'richtext'],
+                ],
+                'Cerita di Balik LINGKUP' => [
+                    'story_eyebrow' => ['label' => 'Eyebrow / Label Kecil', 'type' => 'text'],
+                    'story_title' => ['label' => 'Judul Section', 'type' => 'text'],
+                    'story_text_1' => ['label' => 'Paragraf 1 (Metodologi)', 'type' => 'richtext'],
+                    'story_text_2' => ['label' => 'Paragraf 2 (Tentang Penulis)', 'type' => 'richtext'],
+                    'story_tech_heading' => ['label' => 'Judul "Stack Teknologi"', 'type' => 'text'],
+                    'story_tech_badge_1' => ['label' => 'Tech Badge 1', 'type' => 'text'],
+                    'story_tech_badge_2' => ['label' => 'Tech Badge 2', 'type' => 'text'],
+                    'story_tech_badge_3' => ['label' => 'Tech Badge 3', 'type' => 'text'],
+                    'story_tech_badge_4' => ['label' => 'Tech Badge 4', 'type' => 'text'],
+                    'story_tech_badge_5' => ['label' => 'Tech Badge 5', 'type' => 'text'],
+                    'story_tech_badge_6' => ['label' => 'Tech Badge 6', 'type' => 'text'],
+                ],
+                'Final CTA' => [
+                    'cta_title' => ['label' => 'Judul', 'type' => 'text'],
+                    'cta_subtitle' => ['label' => 'Subtitle', 'type' => 'richtext'],
+                    'cta_button' => ['label' => 'Teks Tombol', 'type' => 'text'],
+                ],
+                'Footer' => [
+                    'footer_tagline' => ['label' => 'Tagline', 'type' => 'text'],
+                ],
+            ],
+        ],
     ];
 
     /**

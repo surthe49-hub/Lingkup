@@ -16,7 +16,7 @@
         <a href="{{ $isAdmin ? route('admin.dashboard') : route('home') }}"
            class="lingkup-sidebar-brand-link"
            @if (! $isAdmin) title="Kembali ke Home" @endif>
-            <div class="lingkup-sidebar-brand-logo">L</div>
+            <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="lingkup-sidebar-brand-logo">
             <span>LINGKUP</span>
             @if ($isAdmin)
                 <span class="lingkup-sidebar-admin-badge">ADMIN</span>
@@ -68,9 +68,23 @@
             </li>
             <li>
                 <a href="{{ route('admin.page-contents.edit', 'landing') }}"
-                   class="lingkup-sidebar-link {{ request()->routeIs('admin.page-contents.*') ? 'active' : '' }}">
+                   class="lingkup-sidebar-link {{ request()->route('page') === 'landing' ? 'active' : '' }}">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>Konten Landing</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.page-contents.edit', 'home') }}"
+                   class="lingkup-sidebar-link {{ request()->route('page') === 'home' ? 'active' : '' }}">
+                    <i class="bi bi-house-gear"></i>
+                    <span>Konten Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.page-contents.edit', 'about') }}"
+                   class="lingkup-sidebar-link {{ request()->route('page') === 'about' ? 'active' : '' }}">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Konten About</span>
                 </a>
             </li>
             <li>

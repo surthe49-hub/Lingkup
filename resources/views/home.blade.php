@@ -166,29 +166,27 @@
                 </p>
             @elseif ($journeyState === 'ready_generate')
                 <h1 class="landing-hero-title home-hero-title">
-                    Siap menyusun roadmap
-                    <span class="text-gradient-primary">{{ $userTarget->name }}</span>?
+                    {{ $content['ready_generate_hero_title_prefix'] ?? 'Siap menyusun roadmap' }}
+                    <span class="text-gradient-primary">{{ $userTarget->name }}</span>{{ $content['ready_generate_hero_title_suffix'] ?? '?' }}
                 </h1>
                 <p class="landing-hero-subtitle home-hero-subtitle">
-                    Profil dan targetmu sudah lengkap.
-                    Saatnya AI menyusun roadmap personal untukmu.
+                    {!! $content['ready_generate_hero_subtitle'] ?? 'Profil dan targetmu sudah lengkap. Saatnya AI menyusun roadmap personal untukmu.' !!}
                 </p>
             @elseif ($journeyState === 'need_target')
                 <h1 class="landing-hero-title home-hero-title">
-                    Mari pilih
-                    <span class="text-gradient-primary">target studimu</span>
+                    {{ $content['need_target_hero_title'] ?? 'Mari pilih' }}
+                    <span class="text-gradient-primary">{{ $content['need_target_hero_title_highlight'] ?? 'target studimu' }}</span>
                 </h1>
                 <p class="landing-hero-subtitle home-hero-subtitle">
-                    Profilmu sudah lengkap. Langkah berikutnya adalah memilih beasiswa
-                    atau program internasional yang ingin kamu kejar.
+                    {!! $content['need_target_hero_subtitle'] ?? 'Profilmu sudah lengkap. Langkah berikutnya adalah memilih beasiswa atau program internasional yang ingin kamu kejar.' !!}
                 </p>
             @else {{-- need_profile --}}
                 <h1 class="landing-hero-title home-hero-title">
-                    Mari mulai perjalanan menuju
-                    <span class="text-gradient-primary">studi internasional</span>
+                    {{ $content['need_profile_hero_title'] ?? 'Mari mulai perjalanan menuju' }}
+                    <span class="text-gradient-primary">{{ $content['need_profile_hero_title_highlight'] ?? 'studi internasional' }}</span>
                 </h1>
                 <p class="landing-hero-subtitle home-hero-subtitle">
-                    Lengkapi profil akademikmu untuk memulai pengalaman LINGKUP.
+                    {!! $content['need_profile_hero_subtitle'] ?? 'Lengkapi profil akademikmu untuk memulai pengalaman LINGKUP.' !!}
                 </p>
             @endif
 
@@ -196,7 +194,7 @@
             <div class="landing-hero-actions home-hero-actions">
                 <a href="{{ route('dashboard') }}" class="btn btn-primary btn-lg landing-cta-primary">
                     <i class="bi bi-grid-1x2 me-1"></i>
-                    Masuk ke Dashboard
+                    {{ $content['hero_dashboard_button'] ?? 'Masuk ke Dashboard' }}
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -289,17 +287,17 @@
                         <i class="bi bi-stars"></i>
                     </div>
 
-                    <h2 class="home-journey-title">Pathway-mu menunggu disusun</h2>
+                    <h2 class="home-journey-title">{{ $content['ready_generate_journey_title'] ?? 'Pathway-mu menunggu disusun' }}</h2>
 
                     <p class="home-journey-summary">
-                        Target <strong>{{ $userTarget->name }}</strong> sudah dipilih.
-                        AI akan menyusun roadmap multi-fase yang disesuaikan dengan profilmu.
+                        {{ $content['ready_generate_journey_desc_prefix'] ?? 'Target' }} <strong>{{ $userTarget->name }}</strong>
+                        {!! $content['ready_generate_journey_desc_suffix'] ?? 'sudah dipilih. AI akan menyusun roadmap multi-fase yang disesuaikan dengan profilmu.' !!}
                     </p>
 
                     <div class="home-journey-actions home-journey-actions-center">
                         <a href="{{ route('user.pathway.index') }}" class="btn btn-primary btn-lg">
                             <i class="bi bi-stars me-1"></i>
-                            Mulai Generate Pathway
+                            {{ $content['ready_generate_journey_button'] ?? 'Mulai Generate Pathway' }}
                         </a>
                     </div>
                 </div>
@@ -313,17 +311,16 @@
                         <i class="bi bi-bullseye"></i>
                     </div>
 
-                    <h2 class="home-journey-title">Pilih target studimu</h2>
+                    <h2 class="home-journey-title">{{ $content['need_target_journey_title'] ?? 'Pilih target studimu' }}</h2>
 
                     <p class="home-journey-summary">
-                        Pilih beasiswa atau program internasional dari 8+ pilihan
-                        seperti Chevening, MEXT, AAS, Fulbright, dan lainnya.
+                        {!! $content['need_target_journey_desc'] ?? 'Pilih beasiswa atau program internasional dari 8+ pilihan seperti Chevening, MEXT, AAS, Fulbright, dan lainnya.' !!}
                     </p>
 
                     <div class="home-journey-actions home-journey-actions-center">
                         <a href="{{ route('target.index') }}" class="btn btn-primary btn-lg">
                             <i class="bi bi-bullseye me-1"></i>
-                            Pilih Target Sekarang
+                            {{ $content['need_target_journey_button'] ?? 'Pilih Target Sekarang' }}
                         </a>
                     </div>
                 </div>
@@ -337,17 +334,16 @@
                         <i class="bi bi-mortarboard"></i>
                     </div>
 
-                    <h2 class="home-journey-title">Lengkapi profil akademikmu</h2>
+                    <h2 class="home-journey-title">{{ $content['need_profile_journey_title'] ?? 'Lengkapi profil akademikmu' }}</h2>
 
                     <p class="home-journey-summary">
-                        Isi data jurusan, semester, IPK, dan kemampuan bahasa.
-                        Profil membantu AI memahami konteks unik perjalananmu.
+                        {!! $content['need_profile_journey_desc'] ?? 'Isi data jurusan, semester, IPK, dan kemampuan bahasa. Profil membantu AI memahami konteks unik perjalananmu.' !!}
                     </p>
 
                     <div class="home-journey-actions home-journey-actions-center">
                         <a href="{{ route('profile-assessment.index') }}" class="btn btn-primary btn-lg">
                             <i class="bi bi-mortarboard me-1"></i>
-                            Mulai Lengkapi Profil
+                            {{ $content['need_profile_journey_button'] ?? 'Mulai Lengkapi Profil' }}
                         </a>
                     </div>
                 </div>
@@ -365,13 +361,13 @@
         <div class="landing-section-header">
             <div class="landing-section-eyebrow">
                 <i class="bi bi-globe2"></i>
-                <span>Inspirasi · Negara Tujuan</span>
+                <span>{{ $content['countries_eyebrow'] ?? 'Inspirasi · Negara Tujuan' }}</span>
             </div>
             <h2 class="landing-section-title">
-                Negara impianmu menanti
+                {{ $content['countries_title'] ?? 'Negara impianmu menanti' }}
             </h2>
             <p class="landing-section-subtitle">
-                Pilih destinasi studi internasional yang sesuai dengan visi karier dan minat akademikmu.
+                {!! $content['countries_subtitle'] ?? 'Pilih destinasi studi internasional yang sesuai dengan visi karier dan minat akademikmu.' !!}
             </p>
         </div>
 
@@ -402,7 +398,7 @@
         <div class="home-countries-footer">
             <a href="{{ route('target.index') }}" class="btn btn-outline-primary">
                 <i class="bi bi-bullseye me-1"></i>
-                Lihat Semua Target Studi
+                {{ $content['countries_footer_button'] ?? 'Lihat Semua Target Studi' }}
                 <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
@@ -427,15 +423,15 @@
                         Buka dashboard untuk mengakses semua fitur dan progress pathway-mu.
                     </p>
                 @else
-                    <h2 class="landing-cta-title">Akses semua fitur di dashboard</h2>
+                    <h2 class="landing-cta-title">{{ $content['cta_default_title'] ?? 'Akses semua fitur di dashboard' }}</h2>
                     <p class="landing-cta-subtitle">
-                        Dashboard berisi semua tool yang kamu butuhkan untuk persiapan studimu.
+                        {!! $content['cta_default_subtitle'] ?? 'Dashboard berisi semua tool yang kamu butuhkan untuk persiapan studimu.' !!}
                     </p>
                 @endif
 
                 <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg landing-cta-button">
                     <i class="bi bi-grid-1x2 me-1"></i>
-                    Masuk ke Dashboard
+                    {{ $content['cta_dashboard_button'] ?? 'Masuk ke Dashboard' }}
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -454,7 +450,7 @@
                 <span>LINGKUP</span>
             </div>
             <p class="landing-footer-tagline">
-                © {{ date('Y') }} LINGKUP · Your Global Pathway Starts Here
+                © {{ date('Y') }} LINGKUP · {{ $content['footer_tagline'] ?? 'Your Global Pathway Starts Here' }}
             </p>
         </div>
     </div>

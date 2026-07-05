@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="LINGKUP — AI-Powered Global Career Navigator untuk mahasiswa Indonesia menuju karir internasional.">
@@ -94,15 +95,11 @@
         .brand-icon {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            color: var(--bg-deep);
-            font-weight: 800;
-            box-shadow: var(--glow-sm);
+            object-fit: contain;
         }
 
         .brand-text {
@@ -923,7 +920,7 @@
     <nav class="navbar navbar-expand-lg navbar-lingkup" id="mainNav">
         <div class="container">
             <a class="brand-logo" href="#">
-                <div class="brand-icon">L</div>
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="brand-icon">
                 <span class="brand-text">LINGKUP</span>
             </a>
 
@@ -1268,7 +1265,7 @@
 
                 <div class="col-lg-4 footer-brand">
                     <a class="brand-logo mb-3" href="#" style="display: inline-flex;">
-                        <div class="brand-icon">L</div>
+                        <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="brand-icon">
                         <span class="brand-text">LINGKUP</span>
                     </a>
                     <p>AI-Powered Global Career Navigator untuk mahasiswa Indonesia menuju panggung internasional.</p>

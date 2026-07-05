@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PageContent;
 use Illuminate\View\View;
 
 /**
@@ -9,6 +10,10 @@ use Illuminate\View\View;
  *
  * Sprint 5.6.D: About Us page
  * Handles the /about route — describes LINGKUP, mission, team.
+ *
+ * Update: seluruh konten teks (39 field) sekarang dikelola lewat
+ * Admin > Konten About (tabel page_contents), bukan hardcoded lagi
+ * di blade.
  */
 class AboutController extends Controller
 {
@@ -17,6 +22,8 @@ class AboutController extends Controller
      */
     public function index(): View
     {
-        return view('about');
+        $content = PageContent::getForPage('about');
+
+        return view('about', compact('content'));
     }
 }

@@ -26,7 +26,7 @@
 <nav class="landing-navbar">
     <div class="landing-navbar-container">
         <a href="{{ route('landing') }}" class="landing-navbar-brand">
-            <div class="landing-navbar-logo">L</div>
+            <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="landing-navbar-logo">
             <span>LINGKUP</span>
         </a>
 
@@ -250,7 +250,7 @@
     <div class="landing-container">
         <div class="landing-footer-content">
             <div class="landing-footer-brand">
-                <div class="landing-footer-logo">L</div>
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="landing-footer-logo">
                 <span>LINGKUP</span>
             </div>
             <p class="landing-footer-tagline">

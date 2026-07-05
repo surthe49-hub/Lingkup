@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar — LINGKUP</title>
@@ -241,16 +242,11 @@
         .brand-icon {
             width: 38px;
             height: 38px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
             border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--bg-deep);
-            box-shadow: 0 0 16px rgba(0,212,255,0.25);
+            object-fit: contain;
         }
 
         .brand-name {
@@ -568,7 +564,7 @@
             </a>
 
             <div class="form-brand">
-                <div class="brand-icon">L</div>
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="LINGKUP" class="brand-icon">
                 <span class="brand-name">LINGKUP</span>
             </div>
 

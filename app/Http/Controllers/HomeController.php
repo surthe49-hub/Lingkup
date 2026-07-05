@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PageContent;
 use App\Models\StudyDestination;
 use Illuminate\View\View;
 
@@ -17,9 +18,14 @@ use Illuminate\View\View;
  * - Marketing-style overview accessible after login
  * - User clicks "Masuk ke Dashboard" to enter working area
  *
- * Update: section "Negara Impianmu" sekarang baca dari tabel
- * study_destinations (dikelola via Admin > Study Destinations),
- * bukan hardcoded lagi di blade.
+ * Update: section "Negara Impianmu" baca dari tabel study_destinations,
+ * dan 28 field teks statis (Hero + Journey Card untuk state selain
+ * 'active', Section Negara header, Final CTA, Footer) baca dari
+ * page_contents — dikelola via Admin > Konten Home.
+ *
+ * State 'active' SENGAJA tidak baca dari page_contents — isinya
+ * dominan data pathway asli user (judul, ringkasan, statistik),
+ * bukan konten marketing statis.
  *
  * @see LandingController for public guest landing
  * @see DashboardController for authenticated working area
@@ -33,10 +39,12 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $destinations = StudyDestination::active()->ordered()->get();
+        $content = PageContent::getForPage('home');
 
         return view('home', [
             'user' => $user,
             'destinations' => $destinations,
+            'content' => $content,
         ]);
     }
 }

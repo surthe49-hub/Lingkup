@@ -113,17 +113,16 @@
         <div class="page-hero-content">
             <div class="landing-hero-badge">
                 <i class="bi bi-info-circle"></i>
-                <span>About LINGKUP</span>
+                <span>{{ $content['hero_badge'] ?? 'About LINGKUP' }}</span>
             </div>
 
             <h1 class="page-hero-title">
-                Membantu mahasiswa Indonesia menuju
-                <span class="text-gradient-primary">studi internasional</span>
+                {{ $content['hero_title_prefix'] ?? 'Membantu mahasiswa Indonesia menuju' }}
+                <span class="text-gradient-primary">{{ $content['hero_title_highlight'] ?? 'studi internasional' }}</span>
             </h1>
 
             <p class="page-hero-subtitle">
-                LINGKUP adalah platform persiapan studi luar negeri berbasis AI yang dirancang
-                khusus untuk mahasiswa Indonesia dengan ambisi global.
+                {!! $content['hero_subtitle'] ?? 'LINGKUP adalah platform persiapan studi luar negeri berbasis AI yang dirancang khusus untuk mahasiswa Indonesia dengan ambisi global.' !!}
             </p>
         </div>
     </div>
@@ -138,23 +137,19 @@
             <div class="about-mission-content">
                 <div class="landing-section-eyebrow">
                     <i class="bi bi-target"></i>
-                    <span>Misi Kami</span>
+                    <span>{{ $content['mission_eyebrow'] ?? 'Misi Kami' }}</span>
                 </div>
 
                 <h2 class="about-section-title">
-                    Memberdayakan akses pendidikan global
+                    {{ $content['mission_title'] ?? 'Memberdayakan akses pendidikan global' }}
                 </h2>
 
                 <p class="about-section-text">
-                    Persiapan studi luar negeri sering kali terbatas pada mereka yang punya akses
-                    ke konsultan beasiswa premium atau jaringan alumni. LINGKUP hadir untuk menutup
-                    kesenjangan itu dengan menghadirkan panduan AI yang dapat diakses oleh siapa saja.
+                    {!! $content['mission_text_1'] ?? 'Persiapan studi luar negeri sering kali terbatas pada mereka yang punya akses ke konsultan beasiswa premium atau jaringan alumni. LINGKUP hadir untuk menutup kesenjangan itu dengan menghadirkan panduan AI yang dapat diakses oleh siapa saja.' !!}
                 </p>
 
                 <p class="about-section-text">
-                    Kami percaya bahwa setiap mahasiswa Indonesia berhak mendapatkan roadmap yang
-                    terstruktur, personal, dan dapat ditindaklanjuti, terlepas dari lokasi geografis
-                    atau latar belakang sosial-ekonomi.
+                    {!! $content['mission_text_2'] ?? 'Kami percaya bahwa setiap mahasiswa Indonesia berhak mendapatkan roadmap yang terstruktur, personal, dan dapat ditindaklanjuti, terlepas dari lokasi geografis atau latar belakang sosial-ekonomi.' !!}
                 </p>
             </div>
 
@@ -163,29 +158,29 @@
                     <div class="about-mission-stat">
                         <i class="bi bi-globe2"></i>
                         <div>
-                            <div class="about-mission-stat-value">8+</div>
-                            <div class="about-mission-stat-label">Target beasiswa internasional</div>
+                            <div class="about-mission-stat-value">{{ $content['mission_stat1_value'] ?? '8+' }}</div>
+                            <div class="about-mission-stat-label">{{ $content['mission_stat1_label'] ?? 'Target beasiswa internasional' }}</div>
                         </div>
                     </div>
                     <div class="about-mission-stat">
                         <i class="bi bi-robot"></i>
                         <div>
-                            <div class="about-mission-stat-value">AI</div>
-                            <div class="about-mission-stat-label">Pathway personalisasi</div>
+                            <div class="about-mission-stat-value">{{ $content['mission_stat2_value'] ?? 'AI' }}</div>
+                            <div class="about-mission-stat-label">{{ $content['mission_stat2_label'] ?? 'Pathway personalisasi' }}</div>
                         </div>
                     </div>
                     <div class="about-mission-stat">
                         <i class="bi bi-translate"></i>
                         <div>
-                            <div class="about-mission-stat-value">100%</div>
-                            <div class="about-mission-stat-label">Bahasa Indonesia</div>
+                            <div class="about-mission-stat-value">{{ $content['mission_stat3_value'] ?? '100%' }}</div>
+                            <div class="about-mission-stat-label">{{ $content['mission_stat3_label'] ?? 'Bahasa Indonesia' }}</div>
                         </div>
                     </div>
                     <div class="about-mission-stat">
                         <i class="bi bi-piggy-bank"></i>
                         <div>
-                            <div class="about-mission-stat-value">Gratis</div>
-                            <div class="about-mission-stat-label">Untuk semua mahasiswa</div>
+                            <div class="about-mission-stat-value">{{ $content['mission_stat4_value'] ?? 'Gratis' }}</div>
+                            <div class="about-mission-stat-label">{{ $content['mission_stat4_label'] ?? 'Untuk semua mahasiswa' }}</div>
                         </div>
                     </div>
                 </div>
@@ -202,9 +197,9 @@
         <div class="landing-section-header">
             <div class="landing-section-eyebrow">
                 <i class="bi bi-stars"></i>
-                <span>Prinsip Kami</span>
+                <span>{{ $content['principles_eyebrow'] ?? 'Prinsip Kami' }}</span>
             </div>
-            <h2 class="landing-section-title">Yang membedakan LINGKUP</h2>
+            <h2 class="landing-section-title">{{ $content['principles_title'] ?? 'Yang membedakan LINGKUP' }}</h2>
         </div>
 
         <div class="about-principles-grid">
@@ -212,10 +207,9 @@
                 <div class="about-principle-icon about-principle-icon-primary">
                     <i class="bi bi-person-check"></i>
                 </div>
-                <h3 class="about-principle-title">Personal, bukan generik</h3>
+                <h3 class="about-principle-title">{{ $content['principle1_title'] ?? 'Personal, bukan generik' }}</h3>
                 <p class="about-principle-text">
-                    Setiap pathway dibuat berdasarkan profil akademik, kemampuan bahasa, dan target
-                    studi unik dari masing-masing pengguna — bukan template yang sama untuk semua.
+                    {!! $content['principle1_text'] ?? 'Setiap pathway dibuat berdasarkan profil akademik, kemampuan bahasa, dan target studi unik dari masing-masing pengguna — bukan template yang sama untuk semua.' !!}
                 </p>
             </div>
 
@@ -223,10 +217,9 @@
                 <div class="about-principle-icon about-principle-icon-peach">
                     <i class="bi bi-diagram-3"></i>
                 </div>
-                <h3 class="about-principle-title">Terstruktur dan bertahap</h3>
+                <h3 class="about-principle-title">{{ $content['principle2_title'] ?? 'Terstruktur dan bertahap' }}</h3>
                 <p class="about-principle-text">
-                    Persiapan beasiswa dibagi ke dalam fase-fase yang jelas dengan task konkret di
-                    setiap fase. Pengguna tidak perlu kewalahan memikirkan semua hal sekaligus.
+                    {!! $content['principle2_text'] ?? 'Persiapan beasiswa dibagi ke dalam fase-fase yang jelas dengan task konkret di setiap fase. Pengguna tidak perlu kewalahan memikirkan semua hal sekaligus.' !!}
                 </p>
             </div>
 
@@ -234,10 +227,9 @@
                 <div class="about-principle-icon about-principle-icon-teal">
                     <i class="bi bi-shield-check"></i>
                 </div>
-                <h3 class="about-principle-title">Konteks lokal Indonesia</h3>
+                <h3 class="about-principle-title">{{ $content['principle3_title'] ?? 'Konteks lokal Indonesia' }}</h3>
                 <p class="about-principle-text">
-                    Output AI disesuaikan dengan realitas mahasiswa Indonesia: kalender akademik,
-                    deadline LPDP, persiapan IELTS, hingga referensi institusi dalam negeri.
+                    {!! $content['principle3_text'] ?? 'Output AI disesuaikan dengan realitas mahasiswa Indonesia: kalender akademik, deadline LPDP, persiapan IELTS, hingga referensi institusi dalam negeri.' !!}
                 </p>
             </div>
         </div>
@@ -252,37 +244,31 @@
         <div class="about-story-wrapper">
             <div class="landing-section-eyebrow">
                 <i class="bi bi-book"></i>
-                <span>Cerita di Balik LINGKUP</span>
+                <span>{{ $content['story_eyebrow'] ?? 'Cerita di Balik LINGKUP' }}</span>
             </div>
 
             <h2 class="about-section-title text-center">
-                Dibangun sebagai proyek penelitian Design Science Research
+                {{ $content['story_title'] ?? 'Dibangun sebagai proyek penelitian Design Science Research' }}
             </h2>
 
             <div class="about-story-content">
                 <p class="about-section-text">
-                    LINGKUP merupakan implementasi dari penelitian skripsi yang berfokus pada penerapan
-                    teknologi AI generatif untuk mendukung perjalanan akademik mahasiswa Indonesia.
-                    Metodologi Design Science Research digunakan untuk memastikan setiap iterasi platform
-                    dievaluasi secara sistematis berdasarkan kebutuhan nyata pengguna.
+                    {!! $content['story_text_1'] ?? 'LINGKUP merupakan implementasi dari penelitian skripsi yang berfokus pada penerapan teknologi AI generatif untuk mendukung perjalanan akademik mahasiswa Indonesia. Metodologi Design Science Research digunakan untuk memastikan setiap iterasi platform dievaluasi secara sistematis berdasarkan kebutuhan nyata pengguna.' !!}
                 </p>
 
                 <p class="about-section-text">
-                    Platform ini dikembangkan oleh <strong>Muhammad Rafi Awallaisal</strong>, mahasiswa
-                    Sistem Informasi Telkom University Purwokerto, sebagai kontribusi nyata bagi komunitas
-                    akademik Indonesia. Setiap fitur dibangun dengan mempertimbangkan keterbatasan akses
-                    yang sering dihadapi mahasiswa di luar pusat-pusat kota besar.
+                    {!! $content['story_text_2'] ?? 'Platform ini dikembangkan oleh <strong>Muhammad Rafi Awallaisal</strong>, mahasiswa Sistem Informasi Telkom University Purwokerto, sebagai kontribusi nyata bagi komunitas akademik Indonesia. Setiap fitur dibangun dengan mempertimbangkan keterbatasan akses yang sering dihadapi mahasiswa di luar pusat-pusat kota besar.' !!}
                 </p>
 
                 <div class="about-story-tech">
-                    <h4>Stack teknologi:</h4>
+                    <h4>{{ $content['story_tech_heading'] ?? 'Stack teknologi:' }}</h4>
                     <div class="about-story-tech-badges">
-                        <span class="about-tech-badge">Laravel 12</span>
-                        <span class="about-tech-badge">PHP 8.3</span>
-                        <span class="about-tech-badge">MySQL</span>
-                        <span class="about-tech-badge">Bootstrap 5</span>
-                        <span class="about-tech-badge">Vite</span>
-                        <span class="about-tech-badge">Gemini AI</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_1'] ?? 'Laravel 12' }}</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_2'] ?? 'PHP 8.3' }}</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_3'] ?? 'MySQL' }}</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_4'] ?? 'Bootstrap 5' }}</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_5'] ?? 'Vite' }}</span>
+                        <span class="about-tech-badge">{{ $content['story_tech_badge_6'] ?? 'Gemini AI' }}</span>
                     </div>
                 </div>
             </div>
@@ -302,13 +288,13 @@
             </div>
 
             <div class="landing-cta-content">
-                <h2 class="landing-cta-title">Siap memulai perjalananmu?</h2>
+                <h2 class="landing-cta-title">{{ $content['cta_title'] ?? 'Siap memulai perjalananmu?' }}</h2>
                 <p class="landing-cta-subtitle">
-                    Lanjutkan ke dashboard dan dapatkan pathway AI personal untuk target studimu.
+                    {!! $content['cta_subtitle'] ?? 'Lanjutkan ke dashboard dan dapatkan pathway AI personal untuk target studimu.' !!}
                 </p>
                 <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg landing-cta-button">
                     <i class="bi bi-grid-1x2 me-1"></i>
-                    Masuk ke Dashboard
+                    {{ $content['cta_button'] ?? 'Masuk ke Dashboard' }}
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -327,7 +313,7 @@
                 <span>LINGKUP</span>
             </div>
             <p class="landing-footer-tagline">
-                © {{ date('Y') }} LINGKUP · Your Global Pathway Starts Here
+                © {{ date('Y') }} LINGKUP · {{ $content['footer_tagline'] ?? 'Your Global Pathway Starts Here' }}
             </p>
         </div>
     </div>
