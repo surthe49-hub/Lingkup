@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PageContent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -16,6 +17,10 @@ use Illuminate\View\View;
  * - Guest users: Render landing page (marketing-style)
  * - Authenticated users: Smart redirect to /home (user landing)
  * - Admin users: Smart redirect to /admin/dashboard
+ *
+ * Update: konten teks (hero, cards, dll) sekarang dikelola lewat
+ * Admin > Page Content (tabel `page_contents`), bukan hardcoded
+ * lagi di blade. Lihat PageContent::getForPage().
  *
  * @see HomeController for authenticated user landing
  */
@@ -39,7 +44,9 @@ class LandingController extends Controller
             return redirect()->route('home');
         }
 
-        // Guest: render public landing page
-        return view('landing');
+        // Guest: render public landing page dengan konten dari database
+        $content = PageContent::getForPage('landing');
+
+        return view('landing', compact('content'));
     }
 }

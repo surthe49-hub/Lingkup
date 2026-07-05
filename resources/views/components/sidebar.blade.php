@@ -59,6 +59,27 @@
                     <span>Feedback</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.testimonials.index') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>Testimonials</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.page-contents.edit', 'landing') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.page-contents.*') ? 'active' : '' }}">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Konten Landing</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.study-destinations.index') }}"
+                   class="lingkup-sidebar-link {{ request()->routeIs('admin.study-destinations.*') ? 'active' : '' }}">
+                    <i class="bi bi-globe-americas"></i>
+                    <span>Negara Tujuan</span>
+                </a>
+            </li>
         </ul>
 
         <div class="lingkup-sidebar-label">Akun</div>

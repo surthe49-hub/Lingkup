@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudyDestination;
 use Illuminate\View\View;
 
 /**
@@ -16,8 +17,9 @@ use Illuminate\View\View;
  * - Marketing-style overview accessible after login
  * - User clicks "Masuk ke Dashboard" to enter working area
  *
- * Phase 5.6.B will add: hero, navbar, sections, CTA design.
- * Phase 5.6.A delivers: minimal placeholder, routing foundation.
+ * Update: section "Negara Impianmu" sekarang baca dari tabel
+ * study_destinations (dikelola via Admin > Study Destinations),
+ * bukan hardcoded lagi di blade.
  *
  * @see LandingController for public guest landing
  * @see DashboardController for authenticated working area
@@ -30,9 +32,11 @@ class HomeController extends Controller
     public function index(): View
     {
         $user = auth()->user();
+        $destinations = StudyDestination::active()->ordered()->get();
 
         return view('home', [
             'user' => $user,
+            'destinations' => $destinations,
         ]);
     }
 }

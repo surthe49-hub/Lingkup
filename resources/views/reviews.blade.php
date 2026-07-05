@@ -1,16 +1,23 @@
-@extends('layouts.landing', ['title' => 'About Us — LINGKUP'])
+@extends('layouts.landing', ['title' => 'Reviews — LINGKUP'])
 
 @section('content')
 {{--
-    Sprint 5.6.D: ABOUT US PAGE
-    Content: Draft Claude (user dapat edit)
-    Audience: Authenticated user (post-login)
+    Sprint 5.6.D: REVIEWS PAGE
+    Content: Dummy testimonials with disclaimer
+    Audience: Authenticated user
 --}}
 
-{{-- Reuse home navbar component pattern --}}
 @php
     $currentUser = auth()->user();
     $userInitial = $currentUser ? strtoupper(substr($currentUser->name, 0, 1)) : '?';
+
+    $avatarColors = [
+        'primary' => ['#4F46E5', '#312E81'],
+        'peach'   => ['#FB923C', '#F97066'],
+        'teal'    => ['#2DD4BF', '#0D9488'],
+        'green'   => ['#34D399', '#10B981'],
+        'pink'    => ['#F472B6', '#DB2777'],
+    ];
 @endphp
 
 {{-- ============================================ --}}
@@ -32,11 +39,11 @@
                 <i class="bi bi-globe2"></i>
                 <span>Negara</span>
             </a>
-            <a href="{{ route('about') }}" class="home-nav-item active">
+            <a href="{{ route('about') }}" class="home-nav-item">
                 <i class="bi bi-info-circle"></i>
                 <span>About Us</span>
             </a>
-            <a href="{{ route('reviews') }}" class="home-nav-item">
+            <a href="{{ route('reviews') }}" class="home-nav-item active">
                 <i class="bi bi-chat-quote"></i>
                 <span>Reviews</span>
             </a>
@@ -90,17 +97,17 @@
         <a href="{{ route('home') }}#countries" class="home-mobile-menu-item">
             <i class="bi bi-globe2"></i><span>Negara</span>
         </a>
-        <a href="{{ route('about') }}" class="home-mobile-menu-item active">
+        <a href="{{ route('about') }}" class="home-mobile-menu-item">
             <i class="bi bi-info-circle"></i><span>About Us</span>
         </a>
-        <a href="{{ route('reviews') }}" class="home-mobile-menu-item">
+        <a href="{{ route('reviews') }}" class="home-mobile-menu-item active">
             <i class="bi bi-chat-quote"></i><span>Reviews</span>
         </a>
     </div>
 </nav>
 
 {{-- ============================================ --}}
-{{-- HERO ABOUT                                    --}}
+{{-- HERO REVIEWS                                  --}}
 {{-- ============================================ --}}
 <section class="page-hero">
     <div class="landing-hero-shapes" aria-hidden="true">
@@ -112,180 +119,107 @@
     <div class="landing-container">
         <div class="page-hero-content">
             <div class="landing-hero-badge">
-                <i class="bi bi-info-circle"></i>
-                <span>About LINGKUP</span>
+                <i class="bi bi-chat-quote"></i>
+                <span>Reviews & Stories</span>
             </div>
 
             <h1 class="page-hero-title">
-                Membantu mahasiswa Indonesia menuju
-                <span class="text-gradient-primary">studi internasional</span>
+                Cerita dari mereka yang
+                <span class="text-gradient-primary">memulai perjalanan</span>
             </h1>
 
             <p class="page-hero-subtitle">
-                LINGKUP adalah platform persiapan studi luar negeri berbasis AI yang dirancang
-                khusus untuk mahasiswa Indonesia dengan ambisi global.
+                Testimonial dari pengguna LINGKUP yang telah menggunakan platform untuk
+                menyusun roadmap persiapan studi internasional.
             </p>
         </div>
     </div>
 </section>
 
 {{-- ============================================ --}}
-{{-- MISSION SECTION                               --}}
+{{-- DEMO DATA DISCLAIMER                          --}}
 {{-- ============================================ --}}
-<section class="page-section">
+<section class="reviews-disclaimer-section">
     <div class="landing-container">
-        <div class="about-mission-grid">
-            <div class="about-mission-content">
-                <div class="landing-section-eyebrow">
-                    <i class="bi bi-target"></i>
-                    <span>Misi Kami</span>
-                </div>
-
-                <h2 class="about-section-title">
-                    Memberdayakan akses pendidikan global
-                </h2>
-
-                <p class="about-section-text">
-                    Persiapan studi luar negeri sering kali terbatas pada mereka yang punya akses
-                    ke konsultan beasiswa premium atau jaringan alumni. LINGKUP hadir untuk menutup
-                    kesenjangan itu dengan menghadirkan panduan AI yang dapat diakses oleh siapa saja.
-                </p>
-
-                <p class="about-section-text">
-                    Kami percaya bahwa setiap mahasiswa Indonesia berhak mendapatkan roadmap yang
-                    terstruktur, personal, dan dapat ditindaklanjuti, terlepas dari lokasi geografis
-                    atau latar belakang sosial-ekonomi.
-                </p>
-            </div>
-
-            <div class="about-mission-visual">
-                <div class="about-mission-card">
-                    <div class="about-mission-stat">
-                        <i class="bi bi-globe2"></i>
-                        <div>
-                            <div class="about-mission-stat-value">8+</div>
-                            <div class="about-mission-stat-label">Target beasiswa internasional</div>
-                        </div>
-                    </div>
-                    <div class="about-mission-stat">
-                        <i class="bi bi-robot"></i>
-                        <div>
-                            <div class="about-mission-stat-value">AI</div>
-                            <div class="about-mission-stat-label">Pathway personalisasi</div>
-                        </div>
-                    </div>
-                    <div class="about-mission-stat">
-                        <i class="bi bi-translate"></i>
-                        <div>
-                            <div class="about-mission-stat-value">100%</div>
-                            <div class="about-mission-stat-label">Bahasa Indonesia</div>
-                        </div>
-                    </div>
-                    <div class="about-mission-stat">
-                        <i class="bi bi-piggy-bank"></i>
-                        <div>
-                            <div class="about-mission-stat-value">Gratis</div>
-                            <div class="about-mission-stat-label">Untuk semua mahasiswa</div>
-                        </div>
-                    </div>
-                </div>
+        <div class="reviews-disclaimer">
+            <i class="bi bi-info-circle"></i>
+            <div>
+                <strong>Catatan:</strong> Testimoni di bawah ini merupakan data demo
+                untuk keperluan presentasi platform. Reviews dari pengguna asli akan
+                ditampilkan setelah LINGKUP diluncurkan secara publik.
             </div>
         </div>
     </div>
 </section>
 
 {{-- ============================================ --}}
-{{-- WHY LINGKUP — 3 PRINCIPLES                    --}}
+{{-- TESTIMONIALS GRID                             --}}
 {{-- ============================================ --}}
-<section class="page-section landing-section-alt">
+<section class="page-section testimonials-section">
     <div class="landing-container">
-        <div class="landing-section-header">
-            <div class="landing-section-eyebrow">
-                <i class="bi bi-stars"></i>
-                <span>Prinsip Kami</span>
-            </div>
-            <h2 class="landing-section-title">Yang membedakan LINGKUP</h2>
-        </div>
+        <div class="testimonials-grid">
+            @foreach ($testimonials as $testimonial)
+                @php
+                    $colors = $avatarColors[$testimonial['avatar_color']] ?? $avatarColors['primary'];
+                    $avatarStyle = "background: linear-gradient(135deg, {$colors[0]} 0%, {$colors[1]} 100%);";
+                    $testimonialInitial = strtoupper(substr($testimonial['name'], 0, 1));
+                @endphp
 
-        <div class="about-principles-grid">
-            <div class="about-principle-card">
-                <div class="about-principle-icon about-principle-icon-primary">
-                    <i class="bi bi-person-check"></i>
-                </div>
-                <h3 class="about-principle-title">Personal, bukan generik</h3>
-                <p class="about-principle-text">
-                    Setiap pathway dibuat berdasarkan profil akademik, kemampuan bahasa, dan target
-                    studi unik dari masing-masing pengguna — bukan template yang sama untuk semua.
-                </p>
-            </div>
+                <div class="testimonial-card">
+                    {{-- Rating stars --}}
+                    <div class="testimonial-rating">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $testimonial['rating'])
+                                <i class="bi bi-star-fill"></i>
+                            @else
+                                <i class="bi bi-star"></i>
+                            @endif
+                        @endfor
+                    </div>
 
-            <div class="about-principle-card">
-                <div class="about-principle-icon about-principle-icon-peach">
-                    <i class="bi bi-diagram-3"></i>
-                </div>
-                <h3 class="about-principle-title">Terstruktur dan bertahap</h3>
-                <p class="about-principle-text">
-                    Persiapan beasiswa dibagi ke dalam fase-fase yang jelas dengan task konkret di
-                    setiap fase. Pengguna tidak perlu kewalahan memikirkan semua hal sekaligus.
-                </p>
-            </div>
+                    {{-- Quote icon --}}
+                    <div class="testimonial-quote-icon">
+                        <i class="bi bi-quote"></i>
+                    </div>
 
-            <div class="about-principle-card">
-                <div class="about-principle-icon about-principle-icon-teal">
-                    <i class="bi bi-shield-check"></i>
+                    {{-- Message --}}
+                    <p class="testimonial-message">
+                        {{ $testimonial['message'] }}
+                    </p>
+
+                    {{-- Author --}}
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="{{ $avatarStyle }}">
+                            {{ $testimonialInitial }}
+                        </div>
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author-name">{{ $testimonial['name'] }}</div>
+                            <div class="testimonial-author-role">{{ $testimonial['role'] }}</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="about-principle-title">Konteks lokal Indonesia</h3>
-                <p class="about-principle-text">
-                    Output AI disesuaikan dengan realitas mahasiswa Indonesia: kalender akademik,
-                    deadline LPDP, persiapan IELTS, hingga referensi institusi dalam negeri.
-                </p>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
 
 {{-- ============================================ --}}
-{{-- THE STORY (Developer & Research Context)     --}}
+{{-- COMING SOON SECTION                           --}}
 {{-- ============================================ --}}
-<section class="page-section">
+<section class="page-section reviews-coming-soon-section">
     <div class="landing-container">
-        <div class="about-story-wrapper">
-            <div class="landing-section-eyebrow">
-                <i class="bi bi-book"></i>
-                <span>Cerita di Balik LINGKUP</span>
+        <div class="reviews-coming-soon-card">
+            <div class="reviews-coming-soon-icon">
+                <i class="bi bi-people"></i>
             </div>
-
-            <h2 class="about-section-title text-center">
-                Dibangun sebagai proyek penelitian Design Science Research
+            <h2 class="reviews-coming-soon-title">
+                Cerita pengguna nyata segera hadir
             </h2>
-
-            <div class="about-story-content">
-                <p class="about-section-text">
-                    LINGKUP merupakan implementasi dari penelitian skripsi yang berfokus pada penerapan
-                    teknologi AI generatif untuk mendukung perjalanan akademik mahasiswa Indonesia.
-                    Metodologi Design Science Research digunakan untuk memastikan setiap iterasi platform
-                    dievaluasi secara sistematis berdasarkan kebutuhan nyata pengguna.
-                </p>
-
-                <p class="about-section-text">
-                    Platform ini dikembangkan oleh <strong>Muhammad Rafi Awallaisal</strong>, mahasiswa
-                    Sistem Informasi Telkom University Purwokerto, sebagai kontribusi nyata bagi komunitas
-                    akademik Indonesia. Setiap fitur dibangun dengan mempertimbangkan keterbatasan akses
-                    yang sering dihadapi mahasiswa di luar pusat-pusat kota besar.
-                </p>
-
-                <div class="about-story-tech">
-                    <h4>Stack teknologi:</h4>
-                    <div class="about-story-tech-badges">
-                        <span class="about-tech-badge">Laravel 12</span>
-                        <span class="about-tech-badge">PHP 8.3</span>
-                        <span class="about-tech-badge">MySQL</span>
-                        <span class="about-tech-badge">Bootstrap 5</span>
-                        <span class="about-tech-badge">Vite</span>
-                        <span class="about-tech-badge">Gemini AI</span>
-                    </div>
-                </div>
-            </div>
+            <p class="reviews-coming-soon-text">
+                LINGKUP saat ini dalam tahap pengembangan akhir. Setelah peluncuran publik,
+                testimoni dari pengguna asli akan ditampilkan di halaman ini sebagai bukti
+                dampak nyata platform.
+            </p>
         </div>
     </div>
 </section>
@@ -302,9 +236,9 @@
             </div>
 
             <div class="landing-cta-content">
-                <h2 class="landing-cta-title">Siap memulai perjalananmu?</h2>
+                <h2 class="landing-cta-title">Mulai cerita perjalananmu sendiri</h2>
                 <p class="landing-cta-subtitle">
-                    Lanjutkan ke dashboard dan dapatkan pathway AI personal untuk target studimu.
+                    Buat pathway personal AI-mu dan jadilah bagian dari komunitas LINGKUP.
                 </p>
                 <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg landing-cta-button">
                     <i class="bi bi-grid-1x2 me-1"></i>

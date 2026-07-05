@@ -5,8 +5,14 @@
     Sprint 5.6.B: PUBLIC LANDING PAGE — Full Design
     Audience: Guest visitors (not logged in)
 
+    Update: konten teks (hero, cards, dll) sekarang dibaca dari
+    $content (array dari PageContent::getForPage('landing')),
+    dikelola lewat Admin > Page Content. Fallback ke teks asli
+    disediakan di setiap field kalau key belum ada di database
+    (misal sebelum seeder pernah dijalankan).
+
     Structure:
-    1. Navbar (sticky, solid white)
+    1. Navbar (sticky, solid white) — TETAP hardcoded, bukan editable
     2. Hero Section (gradient + CSS shapes)
     3. How It Works (3 horizontal cards)
     4. Value Propositions (4 cards)
@@ -15,7 +21,7 @@
 --}}
 
 {{-- ============================================ --}}
-{{-- NAVBAR (Phase 5.6.B)                          --}}
+{{-- NAVBAR (Phase 5.6.B) — Tidak editable          --}}
 {{-- ============================================ --}}
 <nav class="landing-navbar">
     <div class="landing-navbar-container">
@@ -53,37 +59,36 @@
             {{-- Pill badge --}}
             <div class="landing-hero-badge">
                 <span class="badge-dot"></span>
-                <span>AI-Powered Career Navigator</span>
+                <span>{{ $content['hero_badge'] ?? 'AI-Powered Career Navigator' }}</span>
             </div>
 
             {{-- Main title --}}
             <h1 class="landing-hero-title">
-                Roadmap personal AI untuk
-                <span class="text-gradient-primary">studi internasional</span>
-                impianmu.
+                {{ $content['hero_title_prefix'] ?? 'Roadmap personal AI untuk' }}
+                <span class="text-gradient-primary">{{ $content['hero_title_highlight'] ?? 'studi internasional' }}</span>
+                {{ $content['hero_title_suffix'] ?? 'impianmu.' }}
             </h1>
 
             {{-- Subtitle --}}
             <p class="landing-hero-subtitle">
-                LINGKUP membantu mahasiswa Indonesia menyusun langkah persiapan
-                beasiswa dan studi luar negeri dengan AI yang memahami profilmu.
+                {!! $content['hero_subtitle'] ?? 'LINGKUP membantu mahasiswa Indonesia menyusun langkah persiapan beasiswa dan studi luar negeri dengan AI yang memahami profilmu.' !!}
             </p>
 
             {{-- CTA buttons --}}
             <div class="landing-hero-actions">
                 <a href="{{ route('register') }}" class="btn btn-primary btn-lg landing-cta-primary">
                     <i class="bi bi-stars me-1"></i>
-                    Mulai Gratis Sekarang
+                    {{ $content['hero_cta_primary'] ?? 'Mulai Gratis Sekarang' }}
                 </a>
                 <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg landing-cta-secondary">
-                    Sudah punya akun?
+                    {{ $content['hero_cta_secondary'] ?? 'Sudah punya akun?' }}
                 </a>
             </div>
 
             {{-- Trust micro-copy --}}
             <p class="landing-hero-trust">
                 <i class="bi bi-shield-check"></i>
-                Gratis untuk mahasiswa Indonesia · Tidak perlu kartu kredit
+                {{ $content['hero_trust_text'] ?? 'Gratis untuk mahasiswa Indonesia · Tidak perlu kartu kredit' }}
             </p>
         </div>
     </div>
@@ -97,13 +102,13 @@
         <div class="landing-section-header">
             <div class="landing-section-eyebrow">
                 <i class="bi bi-lightning-charge-fill"></i>
-                <span>Cara Kerja</span>
+                <span>{{ $content['how_eyebrow'] ?? 'Cara Kerja' }}</span>
             </div>
             <h2 class="landing-section-title">
-                Tiga langkah menuju pathway personalmu
+                {{ $content['how_title'] ?? 'Tiga langkah menuju pathway personalmu' }}
             </h2>
             <p class="landing-section-subtitle">
-                Sederhana, terstruktur, dan dipandu AI sepanjang prosesnya.
+                {!! $content['how_subtitle'] ?? 'Sederhana, terstruktur, dan dipandu AI sepanjang prosesnya.' !!}
             </p>
         </div>
 
@@ -114,10 +119,9 @@
                 <div class="how-step-icon-wrap how-step-icon-primary">
                     <i class="bi bi-mortarboard"></i>
                 </div>
-                <h3 class="how-step-title">Lengkapi Profil Akademik</h3>
+                <h3 class="how-step-title">{{ $content['step1_title'] ?? 'Lengkapi Profil Akademik' }}</h3>
                 <p class="how-step-desc">
-                    Isi data jurusan, semester, IPK, kemampuan bahasa, dan minat karier
-                    untuk membantu AI memahami konteks unikmu.
+                    {!! $content['step1_desc'] ?? 'Isi data jurusan, semester, IPK, kemampuan bahasa, dan minat karier untuk membantu AI memahami konteks unikmu.' !!}
                 </p>
             </div>
 
@@ -127,10 +131,9 @@
                 <div class="how-step-icon-wrap how-step-icon-peach">
                     <i class="bi bi-bullseye"></i>
                 </div>
-                <h3 class="how-step-title">Pilih Target Studi</h3>
+                <h3 class="how-step-title">{{ $content['step2_title'] ?? 'Pilih Target Studi' }}</h3>
                 <p class="how-step-desc">
-                    Tentukan beasiswa atau program internasional yang ingin kamu kejar
-                    dari 8+ pilihan: MEXT, LPDP, Chevening, AAS, dan lainnya.
+                    {!! $content['step2_desc'] ?? 'Tentukan beasiswa atau program internasional yang ingin kamu kejar dari 8+ pilihan: MEXT, LPDP, Chevening, AAS, dan lainnya.' !!}
                 </p>
             </div>
 
@@ -140,10 +143,9 @@
                 <div class="how-step-icon-wrap how-step-icon-teal">
                     <i class="bi bi-map"></i>
                 </div>
-                <h3 class="how-step-title">Dapatkan Pathway AI</h3>
+                <h3 class="how-step-title">{{ $content['step3_title'] ?? 'Dapatkan Pathway AI' }}</h3>
                 <p class="how-step-desc">
-                    AI akan menyusun roadmap multi-fase dengan task konkret,
-                    estimasi durasi, dan prioritas yang disesuaikan denganmu.
+                    {!! $content['step3_desc'] ?? 'AI akan menyusun roadmap multi-fase dengan task konkret, estimasi durasi, dan prioritas yang disesuaikan denganmu.' !!}
                 </p>
             </div>
         </div>
@@ -158,10 +160,10 @@
         <div class="landing-section-header">
             <div class="landing-section-eyebrow">
                 <i class="bi bi-gem"></i>
-                <span>Mengapa LINGKUP</span>
+                <span>{{ $content['value_eyebrow'] ?? 'Mengapa LINGKUP' }}</span>
             </div>
             <h2 class="landing-section-title">
-                Dirancang khusus untuk mahasiswa Indonesia
+                {{ $content['value_title'] ?? 'Dirancang khusus untuk mahasiswa Indonesia' }}
             </h2>
         </div>
 
@@ -171,10 +173,9 @@
                 <div class="value-prop-icon value-prop-icon-primary">
                     <i class="bi bi-robot"></i>
                 </div>
-                <h4 class="value-prop-title">Pathway AI Personalisasi</h4>
+                <h4 class="value-prop-title">{{ $content['value1_title'] ?? 'Pathway AI Personalisasi' }}</h4>
                 <p class="value-prop-desc">
-                    Setiap roadmap dibuat unik berdasarkan profil akademik,
-                    bahasa, dan target studimu — bukan template generik.
+                    {!! $content['value1_desc'] ?? 'Setiap roadmap dibuat unik berdasarkan profil akademik, bahasa, dan target studimu — bukan template generik.' !!}
                 </p>
             </div>
 
@@ -183,10 +184,9 @@
                 <div class="value-prop-icon value-prop-icon-peach">
                     <i class="bi bi-globe2"></i>
                 </div>
-                <h4 class="value-prop-title">8+ Target Beasiswa</h4>
+                <h4 class="value-prop-title">{{ $content['value2_title'] ?? '8+ Target Beasiswa' }}</h4>
                 <p class="value-prop-desc">
-                    MEXT (Jepang), Chevening (UK), AAS (Australia), Fulbright (US),
-                    DAAD (Jerman), GKS (Korea), Erasmus+ (Eropa), LPDP.
+                    {!! $content['value2_desc'] ?? 'MEXT (Jepang), Chevening (UK), AAS (Australia), Fulbright (US), DAAD (Jerman), GKS (Korea), Erasmus+ (Eropa), LPDP.' !!}
                 </p>
             </div>
 
@@ -195,10 +195,9 @@
                 <div class="value-prop-icon value-prop-icon-yellow">
                     <i class="bi bi-translate"></i>
                 </div>
-                <h4 class="value-prop-title">Bahasa Indonesia</h4>
+                <h4 class="value-prop-title">{{ $content['value3_title'] ?? 'Bahasa Indonesia' }}</h4>
                 <p class="value-prop-desc">
-                    Antarmuka dan output AI sepenuhnya berbahasa Indonesia.
-                    Lebih mudah dipahami dan terasa lebih dekat.
+                    {!! $content['value3_desc'] ?? 'Antarmuka dan output AI sepenuhnya berbahasa Indonesia. Lebih mudah dipahami dan terasa lebih dekat.' !!}
                 </p>
             </div>
 
@@ -207,10 +206,9 @@
                 <div class="value-prop-icon value-prop-icon-green">
                     <i class="bi bi-piggy-bank"></i>
                 </div>
-                <h4 class="value-prop-title">Gratis Sepenuhnya</h4>
+                <h4 class="value-prop-title">{{ $content['value4_title'] ?? 'Gratis Sepenuhnya' }}</h4>
                 <p class="value-prop-desc">
-                    Dibangun untuk membantu mahasiswa Indonesia berani melangkah
-                    ke kancah internasional — tanpa biaya berlangganan.
+                    {!! $content['value4_desc'] ?? 'Dibangun untuk membantu mahasiswa Indonesia berani melangkah ke kancah internasional — tanpa biaya berlangganan.' !!}
                 </p>
             </div>
         </div>
@@ -230,14 +228,14 @@
 
             <div class="landing-cta-content">
                 <h2 class="landing-cta-title">
-                    Siap memulai perjalananmu?
+                    {{ $content['cta_title'] ?? 'Siap memulai perjalananmu?' }}
                 </h2>
                 <p class="landing-cta-subtitle">
-                    Bergabung dengan LINGKUP hari ini dan dapatkan pathway AI personalmu.
+                    {!! $content['cta_subtitle'] ?? 'Bergabung dengan LINGKUP hari ini dan dapatkan pathway AI personalmu.' !!}
                 </p>
                 <a href="{{ route('register') }}" class="btn btn-light btn-lg landing-cta-button">
                     <i class="bi bi-stars me-1"></i>
-                    Daftar Sekarang
+                    {{ $content['cta_button'] ?? 'Daftar Sekarang' }}
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -256,7 +254,7 @@
                 <span>LINGKUP</span>
             </div>
             <p class="landing-footer-tagline">
-                © {{ date('Y') }} LINGKUP · Your Global Pathway Starts Here
+                © {{ date('Y') }} LINGKUP · {{ $content['footer_tagline'] ?? 'Your Global Pathway Starts Here' }}
             </p>
         </div>
     </div>

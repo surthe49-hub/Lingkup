@@ -377,125 +377,24 @@
 
         <div class="countries-grid">
 
-            {{-- ============ Country: Japan ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/japan.jpg') }}"
-                         alt="Studi di Jepang"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
+            @forelse ($destinations as $destination)
+                <div class="country-card">
+                    <div class="country-card-image">
+                        <img src="{{ $destination->image_url }}"
+                             alt="Studi di {{ $destination->name }}"
+                             loading="lazy">
+                        <div class="country-card-overlay"></div>
+                    </div>
+                    <div class="country-card-content">
+                        <div class="country-card-flag">{{ $destination->flag_emoji }}</div>
+                        <h3 class="country-card-name">{{ $destination->name }}</h3>
+                        <p class="country-card-scholarship">{{ $destination->scholarship_name }}</p>
+                    </div>
                 </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇯🇵</div>
-                    <h3 class="country-card-name">Jepang</h3>
-                    <p class="country-card-scholarship">MEXT Scholarship</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: UK ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/uk.jpg') }}"
-                         alt="Studi di Inggris"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇬🇧</div>
-                    <h3 class="country-card-name">Inggris</h3>
-                    <p class="country-card-scholarship">Chevening Scholarship</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: Australia ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/australia.jpg') }}"
-                         alt="Studi di Australia"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇦🇺</div>
-                    <h3 class="country-card-name">Australia</h3>
-                    <p class="country-card-scholarship">Australia Awards (AAS)</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: USA ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/usa.jpg') }}"
-                         alt="Studi di Amerika Serikat"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇺🇸</div>
-                    <h3 class="country-card-name">Amerika Serikat</h3>
-                    <p class="country-card-scholarship">Fulbright Scholarship</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: Germany ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/germany.jpg') }}"
-                         alt="Studi di Jerman"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇩🇪</div>
-                    <h3 class="country-card-name">Jerman</h3>
-                    <p class="country-card-scholarship">DAAD Scholarship</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: Korea ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/korea.jpg') }}"
-                         alt="Studi di Korea Selatan"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇰🇷</div>
-                    <h3 class="country-card-name">Korea Selatan</h3>
-                    <p class="country-card-scholarship">Global Korea Scholarship</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: Netherlands ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/netherlands.jpg') }}"
-                         alt="Studi di Belanda"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇳🇱</div>
-                    <h3 class="country-card-name">Belanda</h3>
-                    <p class="country-card-scholarship">Erasmus+ Programme</p>
-                </div>
-            </div>
-
-            {{-- ============ Country: Indonesia ============ --}}
-            <div class="country-card">
-                <div class="country-card-image">
-                    <img src="{{ asset('images/countries/indonesia.jpg') }}"
-                         alt="Studi di Indonesia (LPDP)"
-                         loading="lazy">
-                    <div class="country-card-overlay"></div>
-                </div>
-                <div class="country-card-content">
-                    <div class="country-card-flag">🇮🇩</div>
-                    <h3 class="country-card-name">Indonesia</h3>
-                    <p class="country-card-scholarship">LPDP Scholarship</p>
-                </div>
-            </div>
+            @empty
+                {{-- Fallback kalau belum ada data sama sekali di database --}}
+                <p class="lingkup-page-subtitle">Belum ada negara tujuan ditambahkan.</p>
+            @endforelse
 
         </div>
 

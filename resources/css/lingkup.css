@@ -5557,3 +5557,185 @@ a:hover .lingkup-stat-card,
   font-style: italic;
   font-size: 0.85rem;
 }
+
+
+
+/* ============================================
+   Admin: Page Content Editor
+   ============================================ */
+
+.lingkup-page-content-group {
+  margin-bottom: var(--space-lg);
+}
+
+.lingkup-page-content-group-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--lingkup-primary);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--lingkup-primary-light);
+}
+
+.lingkup-page-content-submit {
+  position: sticky;
+  bottom: var(--space-md);
+  background: var(--lingkup-surface);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--lingkup-border);
+  justify-content: center;
+}
+
+/* Quill editor — samakan tinggi & border dengan input lain */
+.lingkup-quill-editor {
+  background: var(--lingkup-surface);
+  border-radius: var(--radius-md);
+  min-height: 100px;
+}
+
+.lingkup-quill-editor .ql-toolbar {
+  border-color: var(--lingkup-border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.lingkup-quill-editor .ql-container {
+  border-color: var(--lingkup-border);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.lingkup-quill-editor.lingkup-form-input-error .ql-toolbar,
+.lingkup-quill-editor.lingkup-form-input-error .ql-container {
+  border-color: var(--lingkup-danger);
+}
+
+/* ============================================
+   Admin: Page Content Editor
+   ============================================ */
+
+.lingkup-page-content-group {
+  margin-bottom: var(--space-md);
+  padding: 0;
+  overflow: hidden;
+}
+
+.lingkup-page-content-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lingkup-page-content-group-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--lingkup-text);
+  margin: 0;
+}
+
+.lingkup-page-content-group-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.8rem;
+  color: var(--lingkup-text-muted);
+  flex-shrink: 0;
+}
+
+.lingkup-page-content-group-header[aria-expanded="true"] .bi-chevron-down {
+  transform: rotate(180deg);
+}
+
+.lingkup-page-content-group-header .bi-chevron-down {
+  transition: transform 0.2s ease;
+}
+
+.lingkup-page-content-group-header[aria-expanded="true"] {
+  border-bottom: 1px solid var(--lingkup-border);
+}
+
+.lingkup-page-content-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+
+.lingkup-form-group-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .lingkup-page-content-fields-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lingkup-page-content-submit {
+  position: sticky;
+  bottom: var(--space-md);
+  background: var(--lingkup-surface);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--lingkup-border);
+  justify-content: center;
+}
+
+/* Quill editor — samakan tinggi & border dengan input lain */
+.lingkup-quill-editor {
+  background: var(--lingkup-surface);
+  border-radius: var(--radius-md);
+  min-height: 100px;
+}
+
+.lingkup-quill-editor .ql-toolbar {
+  border-color: var(--lingkup-border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.lingkup-quill-editor .ql-container {
+  border-color: var(--lingkup-border);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.lingkup-quill-editor.lingkup-form-input-error .ql-toolbar,
+.lingkup-quill-editor.lingkup-form-input-error .ql-container {
+  border-color: var(--lingkup-danger);
+}
+
+/* ============================================
+   Admin: Study Destinations (Country Cards)
+   ============================================ */
+
+.lingkup-destination-thumb {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--lingkup-border);
+}
+
+.lingkup-destination-thumb-lg {
+  width: 200px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--lingkup-border);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.lingkup-destination-current-image {
+  margin-bottom: var(--space-md);
+}

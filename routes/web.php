@@ -151,6 +151,42 @@ Route::middleware(['auth', 'admin'])
         Route::patch('/{feedback}/restore', 'restore')->name('restore')->withTrashed();
     });
 
+    Route::prefix('testimonials')
+    ->name('testimonials.')
+    ->controller(\App\Http\Controllers\Admin\TestimonialController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{testimonial}/edit', 'edit')->name('edit');
+        Route::put('/{testimonial}', 'update')->name('update');
+        Route::patch('/{testimonial}/toggle-active', 'toggleActive')->name('toggle-active');
+        Route::delete('/{testimonial}', 'destroy')->name('destroy');
+        Route::patch('/{testimonial}/restore', 'restore')->name('restore')->withTrashed();
+    });
+
+    Route::prefix('pages')
+    ->name('page-contents.')
+    ->controller(\App\Http\Controllers\Admin\PageContentController::class)
+    ->group(function () {
+        Route::get('/{page}/edit', 'edit')->name('edit')->where('page', 'landing|home|about');
+        Route::patch('/{page}', 'update')->name('update')->where('page', 'landing|home|about');
+    });
+    
+    Route::prefix('study-destinations')
+    ->name('study-destinations.')
+    ->controller(\App\Http\Controllers\Admin\StudyDestinationController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{studyDestination}/edit', 'edit')->name('edit');
+        Route::put('/{studyDestination}', 'update')->name('update');
+        Route::patch('/{studyDestination}/toggle-active', 'toggleActive')->name('toggle-active');
+        Route::delete('/{studyDestination}', 'destroy')->name('destroy');
+        Route::patch('/{studyDestination}/restore', 'restore')->name('restore')->withTrashed();
+    });
+
     });
 
 require __DIR__.'/auth.php';
