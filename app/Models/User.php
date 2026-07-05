@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -39,8 +40,35 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'suspended_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // ============================================
+    // Query Scopes (Admin: Users management)
+    // ============================================
+
+    public function scopeActive($query)
+    {
+        return $query->whereNull('suspended_at');
+    }
+
+    public function scopeSuspended($query)
+    {
+        return $query->whereNotNull('suspended_at');
+    }
+
+    public function scopeSearch($query, ?string $term)
+    {
+        if (! $term) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($term) {
+            $q->where('name', 'like', "%{$term}%")
+                ->orWhere('email', 'like', "%{$term}%");
+        });
     }
 
     // ============================================
@@ -55,6 +83,23 @@ class User extends Authenticatable
     public function isUser(): bool
     {
         return $this->role === 'user';
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspended_at !== null;
+    }
+
+    public function suspend(): void
+    {
+        $this->suspended_at = now();
+        $this->save();
+    }
+
+    public function activate(): void
+    {
+        $this->suspended_at = null;
+        $this->save();
     }
 
     // ============================================

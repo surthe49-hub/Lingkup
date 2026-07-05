@@ -44,7 +44,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // User baru selalu ke dashboard user
-        return redirect(route('dashboard', absolute: false));
+        // Sprint 5.6.A: User baru ke /home (user landing) instead of /dashboard
+        // User dapat klik "Masuk ke Dashboard" untuk start working area
+        return redirect(route('home', absolute: false));
     }
 }

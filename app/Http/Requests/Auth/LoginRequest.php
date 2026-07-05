@@ -50,6 +50,22 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Kredensial valid — sekarang cek apakah akun ditangguhkan.
+        // Auth::attempt() sudah membuat sesi login, jadi kalau suspended,
+        // kita harus logout paksa + invalidate sesi yang terlanjur dibuat.
+        $user = Auth::user();
+
+        if ($user->isSuspended()) {
+            Auth::logout();
+
+            $this->session()->invalidate();
+            $this->session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda telah ditangguhkan. Silakan hubungi admin untuk informasi lebih lanjut.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

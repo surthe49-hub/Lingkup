@@ -35,7 +35,9 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Sprint 5.6.A: User redirects to /home (user landing) instead of /dashboard
+        // User can navigate to /dashboard from there via "Masuk ke Dashboard" button
+        return redirect()->intended(route('home', absolute: false));
     }
 
     /**

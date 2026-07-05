@@ -4,6 +4,14 @@
         <i class="bi bi-list"></i>
     </button>
 
+    {{-- Sprint 5.6.E: Home button (non-admin only) --}}
+    @if (Auth::check() && ! Auth::user()->isAdmin())
+        <a href="{{ route('home') }}" class="lingkup-topbar-home-btn" title="Kembali ke Home">
+            <i class="bi bi-house-door"></i>
+            <span class="d-none d-md-inline">Home</span>
+        </a>
+    @endif
+
     {{-- Breadcrumb / Page indicator --}}
     <div class="lingkup-topbar-breadcrumb">
         @yield('breadcrumb', '')
@@ -24,6 +32,13 @@
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
+                @if (! Auth::user()->isAdmin())
+                    <li>
+                        <a class="dropdown-item" href="{{ route('home') }}">
+                            <i class="bi bi-house-door me-2"></i> Home
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
                         <i class="bi bi-person me-2"></i> Profil

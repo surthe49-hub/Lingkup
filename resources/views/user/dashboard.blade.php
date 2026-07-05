@@ -3,123 +3,192 @@
 @section('breadcrumb', 'Dashboard')
 
 @section('content')
-    {{-- Page Header --}}
-    <x-page-header
-        title="Halo, {{ $user->name }}!"
-        subtitle="Selamat datang di LINGKUP. Mari mulai perjalanan menuju targetmu." />
-
-    {{-- ============================================ --}}
-    {{-- Stat Cards (3 cards)                         --}}
-    {{-- ============================================ --}}
-    <div class="row g-3 mb-4">
-
-        {{-- Card 1: Status Profil --}}
-        <div class="col-md-4">
-            @if (! $hasProfile)
-                <a href="{{ route('profile-assessment.index') }}" class="text-decoration-none">
-                    <x-stat-card
-                        label="Status Profil"
-                        value="Belum Dimulai"
-                        icon="bi-exclamation-circle"
-                        meta="Klik untuk memulai →" />
-                </a>
-            @elseif (! $isProfileComplete)
-                <a href="{{ route('profile-assessment.edit') }}" class="text-decoration-none">
-                    <x-stat-card
-                        label="Status Profil"
-                        value="{{ $completionPercentage }}%"
-                        icon="bi-clock"
-                        meta="Lengkapi yang tersisa →" />
-                </a>
-            @else
-                <x-stat-card
-                    label="Status Profil"
-                    value="Lengkap"
-                    icon="bi-check-circle-fill"
-                    meta="{{ $profile->major }} · Semester {{ $profile->semester }}" />
-            @endif
-        </div>
-
-        {{-- Card 2: Target Aktif (3 state) --}}
-        <div class="col-md-4">
-            @if (! $isProfileComplete)
-                {{-- State A: Profile belum lengkap → disabled --}}
-                <div class="lingkup-stat-card" style="opacity: 0.6;">
-                    <div class="lingkup-stat-card-icon" style="background: var(--lingkup-bg); color: var(--lingkup-text-light);">
-                        <i class="bi bi-lock"></i>
-                    </div>
-                    <p class="lingkup-stat-card-label">Target Aktif</p>
-                    <p class="lingkup-stat-card-value" style="color: var(--lingkup-text-light);">Terkunci</p>
-                    <div class="lingkup-stat-card-meta">Lengkapi profil dulu</div>
-                </div>
-            @elseif (! $activeTarget)
-                {{-- State B: Profile lengkap, belum pilih target --}}
-                <a href="{{ route('target.index') }}" class="text-decoration-none">
-                    <x-stat-card
-                        label="Target Aktif"
-                        value="Belum Dipilih"
-                        icon="bi-bullseye"
-                        meta="Pilih target sekarang →" />
-                </a>
-            @else
-                {{-- State C: Sudah pilih target --}}
-                <a href="{{ route('target.show', $activeTarget) }}" class="text-decoration-none">
-                    <div class="lingkup-stat-card">
-                        <div class="lingkup-stat-card-icon" style="background: var(--lingkup-primary); color: white;">
-                            <i class="bi bi-bullseye"></i>
-                        </div>
-                        <p class="lingkup-stat-card-label">Target Aktif</p>
-                        <p class="lingkup-stat-card-value" style="font-size: 1.0625rem; line-height: 1.4;">
-                            {{ \Illuminate\Support\Str::limit($activeTarget->name, 30) }}
-                        </p>
-                        <div class="lingkup-stat-card-meta">
-                            <i class="bi bi-geo-alt me-1"></i>{{ $activeTarget->country }}
-                        </div>
-                    </div>
-                </a>
-            @endif
-        </div>
-
-        {{-- Card 3: Pathway --}}
-        <div class="col-md-4">
-            @if (auth()->user()->pathway)
-                <a href="{{ route('user.pathway.show', auth()->user()->pathway) }}" class="text-decoration-none">
-                    <div class="lingkup-stat-card">
-                        <div class="lingkup-stat-card-icon" style="background: var(--lingkup-success); color: white;">
-                            <i class="bi bi-map"></i>
-                        </div>
-                        <p class="lingkup-stat-card-label">Pathway</p>
-                        <p class="lingkup-stat-card-value" style="font-size: 1.0625rem; line-height: 1.4;">Tersedia</p>
-                        <div class="lingkup-stat-card-meta">Lihat progress roadmap →</div>
-                    </div>
-                </a>
-            @else
-                <div class="lingkup-stat-card" style="opacity: 0.6;">
-                    <div class="lingkup-stat-card-icon" style="background: var(--lingkup-bg); color: var(--lingkup-text-light);">
-                        <i class="bi bi-map"></i>
-                    </div>
-                    <p class="lingkup-stat-card-label">Pathway</p>
-                    <p class="lingkup-stat-card-value" style="color: var(--lingkup-text-light);">Belum Ada</p>
-                    <div class="lingkup-stat-card-meta">Generate di bawah ini</div>
-                </div>
-            @endif
-        </div>
-    </div>
-
-    {{-- ============================================ --}}
-    {{-- Pathway Card (Full Width) - Phase 4 & 5.2     --}}
-    {{-- ============================================ --}}
     @php
+        // ============================================
+        // Dashboard state variables
+        // ============================================
         $userProfile = auth()->user()->profile;
         $userTarget = auth()->user()->userTarget?->target;
         $userPathway = auth()->user()->pathway;
         $profileComplete = $userProfile && $userProfile->isComplete();
         $mismatchInfo = auth()->user()->getPathwayTargetMismatchInfo();
+
+        // Show "Langkah Memulai" hanya jika belum semua done
+        $allComplete = $isProfileComplete && $activeTarget && $userPathway;
+        $showOnboarding = ! $allComplete;
     @endphp
 
-    {{-- Mismatch Banner (Phase 5.2) --}}
+    {{-- ============================================ --}}
+    {{-- HERO SECTION (Phase 5.4.B Redesign)            --}}
+    {{-- ============================================ --}}
+    <div class="dashboard-hero mb-4">
+        @if ($userPathway && $activeTarget)
+            {{-- State: User has pathway --}}
+            <div class="dashboard-hero-content">
+                <div class="dashboard-hero-greeting">
+                    <span class="hero-emoji">👋</span>
+                    <span>Halo, {{ $user->name }}</span>
+                </div>
+                <h1 class="dashboard-hero-title">
+                    Kamu sedang mempersiapkan <span class="text-primary-emphasis">{{ $activeTarget->name }}</span>.
+                </h1>
+                <p class="dashboard-hero-subtitle">
+                    Pathway {{ $userPathway->estimated_total_duration }} sedang berjalan. Lanjutkan perjalananmu.
+                </p>
+                <div class="dashboard-hero-actions">
+                    <a href="{{ route('user.pathway.show', $userPathway) }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-map me-1"></i>
+                        Lanjutkan Roadmap
+                        <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        @elseif ($profileComplete && $activeTarget)
+            {{-- State: Ready to generate --}}
+            <div class="dashboard-hero-content">
+                <div class="dashboard-hero-greeting">
+                    <span class="hero-emoji">✨</span>
+                    <span>Halo, {{ $user->name }}</span>
+                </div>
+                <h1 class="dashboard-hero-title">
+                    Siap menyusun roadmap menuju <span class="text-primary-emphasis">{{ $activeTarget->name }}</span>?
+                </h1>
+                <p class="dashboard-hero-subtitle">
+                    Profil dan targetmu sudah lengkap. Saatnya AI menyusun roadmap personal untukmu.
+                </p>
+                <div class="dashboard-hero-actions">
+                    <a href="{{ route('user.pathway.index') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-magic me-1"></i>
+                        Mulai Generate Pathway
+                    </a>
+                </div>
+            </div>
+        @else
+            {{-- State: Onboarding (new user) --}}
+            <div class="dashboard-hero-content">
+                <div class="dashboard-hero-greeting">
+                    <span class="hero-emoji">👋</span>
+                    <span>Halo, {{ $user->name }}</span>
+                </div>
+                <h1 class="dashboard-hero-title">
+                    Mari mulai perjalanan menuju target studi internasionalmu.
+                </h1>
+                <p class="dashboard-hero-subtitle">
+                    Selesaikan 3 langkah berikut untuk mendapatkan roadmap personal dari AI.
+                </p>
+            </div>
+        @endif
+    </div>
+
+    {{-- ============================================ --}}
+    {{-- Stat Cards (3 cards) - Conditional show       --}}
+    {{-- Hide stat card 2 if active target highlighted --}}
+    {{-- ============================================ --}}
+    @unless ($activeTarget && $isProfileComplete && $userPathway)
+        <div class="row g-3 mb-4">
+
+            {{-- Card 1: Status Profil --}}
+            <div class="col-md-4">
+                @if (! $hasProfile)
+                    <a href="{{ route('profile-assessment.index') }}" class="text-decoration-none">
+                        <x-stat-card
+                            label="Status Profil"
+                            value="Belum Dimulai"
+                            icon="bi-exclamation-circle"
+                            meta="Klik untuk memulai →" />
+                    </a>
+                @elseif (! $isProfileComplete)
+                    <a href="{{ route('profile-assessment.edit') }}" class="text-decoration-none">
+                        <x-stat-card
+                            label="Status Profil"
+                            value="{{ $completionPercentage }}%"
+                            icon="bi-clock"
+                            meta="Lengkapi yang tersisa →" />
+                    </a>
+                @else
+                    <x-stat-card
+                        label="Status Profil"
+                        value="Lengkap"
+                        icon="bi-check-circle-fill"
+                        meta="{{ $profile->major }} · Semester {{ $profile->semester }}" />
+                @endif
+            </div>
+
+            {{-- Card 2: Target Aktif (3 state) --}}
+            <div class="col-md-4">
+                @if (! $isProfileComplete)
+                    {{-- State A: Profile belum lengkap → disabled --}}
+                    <div class="lingkup-stat-card lingkup-stat-card-locked">
+                        <div class="lingkup-stat-card-icon stat-icon-locked">
+                            <i class="bi bi-lock"></i>
+                        </div>
+                        <p class="lingkup-stat-card-label">Target Aktif</p>
+                        <p class="lingkup-stat-card-value stat-value-locked">Terkunci</p>
+                        <div class="lingkup-stat-card-meta">Lengkapi profil dulu</div>
+                    </div>
+                @elseif (! $activeTarget)
+                    {{-- State B: Profile lengkap, belum pilih target --}}
+                    <a href="{{ route('target.index') }}" class="text-decoration-none">
+                        <x-stat-card
+                            label="Target Aktif"
+                            value="Belum Dipilih"
+                            icon="bi-bullseye"
+                            meta="Pilih target sekarang →" />
+                    </a>
+                @else
+                    {{-- State C: Sudah pilih target --}}
+                    <a href="{{ route('target.show', $activeTarget) }}" class="text-decoration-none">
+                        <div class="lingkup-stat-card">
+                            <div class="lingkup-stat-card-icon stat-icon-primary">
+                                <i class="bi bi-bullseye"></i>
+                            </div>
+                            <p class="lingkup-stat-card-label">Target Aktif</p>
+                            <p class="lingkup-stat-card-value stat-value-compact">
+                                {{ \Illuminate\Support\Str::limit($activeTarget->name, 30) }}
+                            </p>
+                            <div class="lingkup-stat-card-meta">
+                                <i class="bi bi-geo-alt me-1"></i>{{ $activeTarget->country }}
+                            </div>
+                        </div>
+                    </a>
+                @endif
+            </div>
+
+            {{-- Card 3: Pathway --}}
+            <div class="col-md-4">
+                @if ($userPathway)
+                    <a href="{{ route('user.pathway.show', $userPathway) }}" class="text-decoration-none">
+                        <div class="lingkup-stat-card">
+                            <div class="lingkup-stat-card-icon stat-icon-success">
+                                <i class="bi bi-map"></i>
+                            </div>
+                            <p class="lingkup-stat-card-label">Pathway</p>
+                            <p class="lingkup-stat-card-value stat-value-compact">Tersedia</p>
+                            <div class="lingkup-stat-card-meta">Lihat roadmap →</div>
+                        </div>
+                    </a>
+                @else
+                    <div class="lingkup-stat-card lingkup-stat-card-locked">
+                        <div class="lingkup-stat-card-icon stat-icon-locked">
+                            <i class="bi bi-map"></i>
+                        </div>
+                        <p class="lingkup-stat-card-label">Pathway</p>
+                        <p class="lingkup-stat-card-value stat-value-locked">Belum Ada</p>
+                        <div class="lingkup-stat-card-meta">Generate di bawah ini</div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    @endunless
+
+    {{-- ============================================ --}}
+    {{-- Mismatch Banner (Phase 5.2) - dekat focal     --}}
+    {{-- ============================================ --}}
     <x-pathway.mismatch-banner :mismatch-info="$mismatchInfo" />
 
+    {{-- ============================================ --}}
+    {{-- Pathway Card (Focal Point)                   --}}
+    {{-- ============================================ --}}
     <div class="mb-4">
         @if ($userPathway)
             {{-- State: Active Pathway --}}
@@ -162,10 +231,10 @@
             </div>
         @elseif ($profileComplete && $userTarget)
             {{-- State: Ready to Generate --}}
-            <div class="dashboard-pathway-card pathway-card-empty p-4" style="background: white; border: 1px dashed var(--lingkup-primary); border-radius: var(--radius-lg);">
+            <div class="dashboard-pathway-card pathway-card-ready">
                 <div class="dashboard-pathway-header">
                     <div>
-                        <h3 class="dashboard-pathway-title" style="color: var(--lingkup-primary); font-weight: 700;">
+                        <h3 class="dashboard-pathway-title pathway-title-primary">
                             <i class="bi bi-magic me-2"></i>Siap Generate Pathway
                         </h3>
                         <p class="text-muted mb-0">Profil dan target Anda sudah lengkap. Saatnya menghasilkan roadmap personal dengan AI.</p>
@@ -180,10 +249,10 @@
             </div>
         @else
             {{-- State: Prerequisites Incomplete --}}
-            <div class="dashboard-pathway-card pathway-card-empty p-4" style="background: white; border: 1px dashed var(--lingkup-border); border-radius: var(--radius-lg); opacity: 0.85;">
+            <div class="dashboard-pathway-card pathway-card-prereq">
                 <div class="dashboard-pathway-header">
                     <div>
-                        <h3 class="dashboard-pathway-title" style="font-weight: 600;">
+                        <h3 class="dashboard-pathway-title">
                             <i class="bi bi-info-circle me-2"></i>Pathway Anda Menanti
                         </h3>
                         <p class="text-muted mb-0">
@@ -212,23 +281,24 @@
     </div>
 
     {{-- ============================================ --}}
-    {{-- Active Target Highlight Card (jika ada)      --}}
+    {{-- Active Target Highlight Card                  --}}
+    {{-- Show hanya jika belum punya pathway           --}}
     {{-- ============================================ --}}
-    @if ($activeTarget && $isProfileComplete)
-        <div class="lingkup-card mb-4" style="background: var(--lingkup-primary-light); border-color: var(--lingkup-primary);">
+    @if ($activeTarget && $isProfileComplete && ! $userPathway)
+        <div class="lingkup-card target-highlight-card mb-4">
             <div class="d-flex align-items-start gap-3 flex-wrap">
-                <div style="width: 56px; height: 56px; border-radius: var(--radius-lg); background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.5rem; font-weight: 700; color: var(--lingkup-primary);">
+                <div class="target-highlight-avatar">
                     {{ strtoupper(substr($activeTarget->name, 0, 1)) }}
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 200px;">
-                    <div style="font-size: 0.8125rem; color: var(--lingkup-text-muted); margin-bottom: 0.25rem;">
+                    <div class="target-highlight-label">
                         <i class="bi bi-bullseye me-1"></i> Target aktif kamu
                     </div>
-                    <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; line-height: 1.3;">
+                    <h3 class="target-highlight-name">
                         {{ $activeTarget->name }}
                     </h3>
-                    <div class="d-flex flex-wrap gap-3" style="color: var(--lingkup-text-muted); font-size: 0.875rem;">
+                    <div class="target-highlight-meta">
                         <span><i class="bi bi-geo-alt me-1"></i>{{ $activeTarget->country }}</span>
                         <span><i class="bi bi-mortarboard me-1"></i>{{ $activeTarget->education_level }}</span>
                         @if ($activeTarget->typical_deadline)
@@ -250,143 +320,148 @@
     @endif
 
     {{-- ============================================ --}}
-    {{-- Langkah Memulai (3 steps)                     --}}
+    {{-- Langkah Memulai - hidden jika all complete    --}}
     {{-- ============================================ --}}
-    <x-section-card title="Langkah Memulai" class="mb-4">
-        {{-- Step 1: Profile Assessment --}}
-        <div class="d-flex align-items-start gap-3 mb-3">
-            @if ($isProfileComplete)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <i class="bi bi-check"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--lingkup-success);">
-                        Profil Akademik Lengkap
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Profil sudah lengkap, siap untuk langkah berikutnya.
-                        <a href="{{ route('profile-assessment.show') }}" style="color: var(--lingkup-primary);">Lihat profil →</a>
-                    </p>
-                </div>
-            @elseif ($hasProfile)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-primary-light); color: var(--lingkup-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">1</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem;">
-                        Lanjutkan Profil Akademik ({{ $completionPercentage }}%)
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Some data are missing.
-                        <a href="{{ route('profile-assessment.edit') }}" style="color: var(--lingkup-primary);">Lanjutkan →</a>
-                    </p>
-                </div>
-            @else
-                <div style="width: 32px; height: 32px; background: var(--lingkup-primary-light); color: var(--lingkup-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">1</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem;">
-                        Mulai dengan Profil Akademik
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Lengkapi data akademik untuk mendapatkan pathway personal.
-                        <a href="{{ route('profile-assessment.index') }}" style="color: var(--lingkup-primary);">Mulai sekarang →</a>
-                    </p>
-                </div>
-            @endif
-        </div>
+    @if ($showOnboarding)
+        <x-section-card title="Langkah Memulai" class="mb-4">
+            {{-- Step 1: Profile Assessment --}}
+            <div class="onboarding-step">
+                @if ($isProfileComplete)
+                    <div class="onboarding-step-icon onboarding-step-complete">
+                        <i class="bi bi-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title onboarding-step-title-complete">
+                            Profil Akademik Lengkap
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Profil sudah lengkap, siap untuk langkah berikutnya.
+                            <a href="{{ route('profile-assessment.show') }}" class="onboarding-link">Lihat profil →</a>
+                        </p>
+                    </div>
+                @elseif ($hasProfile)
+                    <div class="onboarding-step-icon onboarding-step-active">1</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title">
+                            Lanjutkan Profil Akademik ({{ $completionPercentage }}%)
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Beberapa data masih kosong.
+                            <a href="{{ route('profile-assessment.edit') }}" class="onboarding-link">Lanjutkan →</a>
+                        </p>
+                    </div>
+                @else
+                    <div class="onboarding-step-icon onboarding-step-active">1</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title">
+                            Mulai dengan Profil Akademik
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Lengkapi data akademik untuk mendapatkan pathway personal.
+                            <a href="{{ route('profile-assessment.index') }}" class="onboarding-link">Mulai sekarang →</a>
+                        </p>
+                    </div>
+                @endif
+            </div>
 
-        {{-- Step 2: Pilih Target --}}
-        <div class="d-flex align-items-start gap-3 mb-3">
-            @if ($activeTarget)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <i class="bi bi-check"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--lingkup-success);">
-                        Target Sudah Dipilih
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Target aktif: <strong>{{ $activeTarget->name }}</strong>.
-                        <a href="{{ route('target.index') }}" style="color: var(--lingkup-primary);">Ganti target →</a>
-                    </p>
-                </div>
-            @elseif ($isProfileComplete)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-primary-light); color: var(--lingkup-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">2</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem;">
-                        Pilih Target Beasiswa
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Pilih beasiswa atau program internasional yang ingin kamu kejar.
-                        <a href="{{ route('target.index') }}" style="color: var(--lingkup-primary);">Pilih sekarang →</a>
-                    </p>
-                </div>
-            @else
-                <div style="width: 32px; height: 32px; background: var(--lingkup-bg); color: var(--lingkup-text-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">2</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--lingkup-text-light);">
-                        Pilih Target Beasiswa
-                    </h4>
-                    <p style="color: var(--lingkup-text-light); margin: 0; font-size: 0.9375rem;">
-                        Lengkapi profil terlebih dahulu untuk membuka langkah ini.
-                    </p>
-                </div>
-            @endif
-        </div>
+            {{-- Step 2: Pilih Target --}}
+            <div class="onboarding-step">
+                @if ($activeTarget)
+                    <div class="onboarding-step-icon onboarding-step-complete">
+                        <i class="bi bi-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title onboarding-step-title-complete">
+                            Target Sudah Dipilih
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Target aktif: <strong>{{ $activeTarget->name }}</strong>.
+                            <a href="{{ route('target.index') }}" class="onboarding-link">Ganti target →</a>
+                        </p>
+                    </div>
+                @elseif ($isProfileComplete)
+                    <div class="onboarding-step-icon onboarding-step-active">2</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title">
+                            Pilih Target Beasiswa
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Pilih beasiswa atau program internasional yang ingin kamu kejar.
+                            <a href="{{ route('target.index') }}" class="onboarding-link">Pilih sekarang →</a>
+                        </p>
+                    </div>
+                @else
+                    <div class="onboarding-step-icon onboarding-step-locked">2</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title onboarding-step-title-locked">
+                            Pilih Target Beasiswa
+                        </h4>
+                        <p class="onboarding-step-desc onboarding-step-desc-locked">
+                            Lengkapi profil terlebih dahulu untuk membuka langkah ini.
+                        </p>
+                    </div>
+                @endif
+            </div>
 
-        {{-- Step 3: AI Pathway --}}
-        <div class="d-flex align-items-start gap-3">
-            @if ($userPathway)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <i class="bi bi-check"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--lingkup-success);">
-                        Pathway Telah Dibuat
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        AI berhasil menyusun roadmap studi milikmu. <a href="{{ route('user.pathway.show', $userPathway) }}" style="color: var(--lingkup-primary);">Akses roadmap →</a>
-                    </p>
-                </div>
-            @elseif ($profileComplete && $userTarget)
-                <div style="width: 32px; height: 32px; background: var(--lingkup-primary-light); color: var(--lingkup-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">3</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem;">
-                        Dapatkan Pathway Personal
-                    </h4>
-                    <p style="color: var(--lingkup-text-muted); margin: 0; font-size: 0.9375rem;">
-                        Langkah terakhir siap! Silakan klik tombol generate di atas untuk menyusun roadmap AI Anda.
-                    </p>
-                </div>
-            @else
-                <div style="width: 32px; height: 32px; background: var(--lingkup-bg); color: var(--lingkup-text-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">3</div>
-                <div class="flex-grow-1">
-                    <h4 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; color: var(--lingkup-text-light);">
-                        Dapatkan Pathway Personal
-                    </h4>
-                    <p style="color: var(--lingkup-text-light); margin: 0; font-size: 0.9375rem;">
-                        AI akan menyusun roadmap personal lengkap setelah profil dan target beasiswa terpenuhi.
-                    </p>
-                </div>
-            @endif
-        </div>
-    </x-section-card>
+            {{-- Step 3: AI Pathway --}}
+            <div class="onboarding-step onboarding-step-last">
+                @if ($userPathway)
+                    <div class="onboarding-step-icon onboarding-step-complete">
+                        <i class="bi bi-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title onboarding-step-title-complete">
+                            Pathway Telah Dibuat
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            AI berhasil menyusun roadmap studi milikmu.
+                            <a href="{{ route('user.pathway.show', $userPathway) }}" class="onboarding-link">Akses roadmap →</a>
+                        </p>
+                    </div>
+                @elseif ($profileComplete && $userTarget)
+                    <div class="onboarding-step-icon onboarding-step-active">3</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title">
+                            Dapatkan Pathway Personal
+                        </h4>
+                        <p class="onboarding-step-desc">
+                            Langkah terakhir siap! Silakan klik tombol generate di atas untuk menyusun roadmap AI Anda.
+                        </p>
+                    </div>
+                @else
+                    <div class="onboarding-step-icon onboarding-step-locked">3</div>
+                    <div class="flex-grow-1">
+                        <h4 class="onboarding-step-title onboarding-step-title-locked">
+                            Dapatkan Pathway Personal
+                        </h4>
+                        <p class="onboarding-step-desc onboarding-step-desc-locked">
+                            AI akan menyusun roadmap personal lengkap setelah profil dan target beasiswa terpenuhi.
+                        </p>
+                    </div>
+                @endif
+            </div>
+        </x-section-card>
+    @endif
 
     {{-- ============================================ --}}
-    {{-- Account Info (footer)                        --}}
+    {{-- Account Info Footer (minimal)                 --}}
     {{-- ============================================ --}}
-    <x-section-card title="Informasi Akun">
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div style="font-size: 0.8125rem; color: var(--lingkup-text-muted); margin-bottom: 0.25rem;">Email</div>
-                <div style="font-weight: 500;">{{ $user->email }}</div>
-            </div>
-            <div class="col-md-6">
-                <div style="font-size: 0.8125rem; color: var(--lingkup-text-muted); margin-bottom: 0.25rem;">Role</div>
-                <div style="font-weight: 500;">{{ ucfirst($user->role) }}</div>
-            </div>
-            <div class="col-md-6">
-                <div style="font-size: 0.8125rem; color: var(--lingkup-text-muted); margin-bottom: 0.25rem;">Member Sejak</div>
-                <div style="font-weight: 500;">{{ $user->created_at->translatedFormat('d F Y') }}</div>
-            </div>
+    <div class="dashboard-account-footer">
+        <div class="account-footer-content">
+            <span class="account-footer-item">
+                <i class="bi bi-envelope"></i>
+                {{ $user->email }}
+            </span>
+            <span class="account-footer-divider">•</span>
+            <span class="account-footer-item">
+                <i class="bi bi-person-badge"></i>
+                {{ ucfirst($user->role) }}
+            </span>
+            <span class="account-footer-divider">•</span>
+            <span class="account-footer-item">
+                <i class="bi bi-calendar"></i>
+                Member sejak {{ $user->created_at->translatedFormat('d F Y') }}
+            </span>
         </div>
-    </x-section-card>
+    </div>
 @endsection

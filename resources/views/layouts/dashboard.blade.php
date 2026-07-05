@@ -7,9 +7,9 @@
 
     <title>{{ $title ?? 'Dashboard' }} · {{ config('app.name', 'LINGKUP') }}</title>
 
-    {{-- Fonts --}}
+    {{-- Fonts (Phase 5.5.A: Inter with all weights for modern typography) --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
 
     {{-- Vite assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
